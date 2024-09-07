@@ -1,0 +1,9 @@
+{
+  "license": "mit",
+  "private": "false",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "chart.js": "^3.9.1",
+    "stimulus-chartjs": "^4.0.0"
+  }
+}
