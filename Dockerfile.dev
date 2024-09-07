@@ -1,0 +1,40 @@
+# Escolhe a imagem oficial do Ruby
+FROM ruby:3.1.0
+
+ENV TZ=America/Sao_Paulo
+
+# Instala as bibliotecas de sistema necessárias
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs cron npm
+
+# Define o diretório de trabalho dentro do container
+RUN mkdir /app
+WORKDIR /app
+
+# Copia o Gemfile e Gemfile.lock para dentro do container
+ENV RAILS_ENV=development
+ENV RAILS_LOG_TO_STDOUT=true
+
+# Cache gems
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+
+RUN npm i
+
+# Instala as dependências do bundle
+RUN bundle install
+
+# Copia o restante do código da aplicação para o diretório de trabalho
+COPY . .
+
+RUN mkdir -p tmp/pids
+
+# Compila os assets, se estiver usando o Rails com assets pipeline
+RUN bundle exec rake assets:precompile
+
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+EXPOSE 80
+ENTRYPOINT ["entrypoint.sh"]
+
+# Define o comando padrão para iniciar o servidor
+CMD ["bundle", "exec", "puma"]

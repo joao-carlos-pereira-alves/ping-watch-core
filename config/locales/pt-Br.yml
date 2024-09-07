@@ -1,0 +1,176 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   "true": "foo"
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+pt-BR:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %b"
+      long: "%d de %B de %Y"
+    month_names:
+      - ~  # O primeiro valor é nulo porque o índice do array começa em 1 (para janeiro)
+      - Janeiro
+      - Fevereiro
+      - Março
+      - Abril
+      - Maio
+      - Junho
+      - Julho
+      - Agosto
+      - Setembro
+      - Outubro
+      - Novembro
+      - Dezembro
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%d/%m %H:%M"
+      long: "%d de %B de %Y %H:%M"
+  activerecord:
+    attributes:
+      site:
+        status:
+          unknown: "Desconhecido"
+          online: "Ligado"
+          offline: "Desligado"
+          timeout: "Tempo Esgotado"
+          maintenance: "Manutenção"
+          forbidden: "Não permitido o acesso"
+  site:
+    status:
+      unknown: "Desconhecido"
+      online: "Ligado"
+      offline: "Desligado"
+      timeout: "Tempo Esgotado"
+      maintenance: "Manutenção"
+      forbidden: "Não permitido o acesso"
+  devise:
+    confirmations:
+      confirmed: "Seu endereço de e-mail foi confirmado com sucesso."
+      send_instructions: "Você receberá um e-mail com instruções sobre como confirmar seu endereço de e-mail em alguns minutos."
+      send_paranoid_instructions: "Se o seu endereço de e-mail existir em nosso banco de dados, você receberá um e-mail com instruções sobre como confirmar seu endereço de e-mail em alguns minutos."
+    failure:
+      already_authenticated: "Você já está autenticado."
+      inactive: "Sua conta ainda não está ativada."
+      invalid: "Chave de %{authentication_keys} ou senha inválida."
+      locked: "Sua conta está bloqueada."
+      last_attempt: "Você tem mais uma tentativa antes que sua conta seja bloqueada."
+      not_found_in_database: "Chave de %{authentication_keys} ou senha inválida."
+      timeout: "Sua sessão expirou. Por favor, faça login novamente para continuar."
+      unauthenticated: "Você precisa fazer login ou se inscrever antes de continuar."
+      unconfirmed: "Você precisa confirmar seu endereço de e-mail antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instruções de confirmação"
+      reset_password_instructions:
+        subject: "Instruções para redefinir a senha"
+      unlock_instructions:
+        subject: "Instruções para desbloquear"
+      email_changed:
+        subject: "E-mail Alterado"
+      password_change:
+        subject: "Senha Alterada"
+    omniauth_callbacks:
+      failure: "Não foi possível autenticar você pelo %{kind} porque \"%{reason}\"."
+      success: "Autenticado com sucesso pelo %{kind}."
+    passwords:
+      no_token: "Você não pode acessar esta página sem vir de um e-mail de redefinição de senha. Se você está vindo de um e-mail de redefinição de senha, certifique-se de ter usado a URL completa fornecida."
+      send_instructions: "Você receberá um e-mail com instruções sobre como redefinir sua senha em alguns minutos."
+      send_paranoid_instructions: "Se o seu endereço de e-mail existir em nosso banco de dados, você receberá um link para recuperação de senha no seu e-mail em alguns minutos."
+      updated: "Sua senha foi alterada com sucesso. Você está agora autenticado."
+      updated_not_active: "Sua senha foi alterada com sucesso."
+    registrations:
+      destroyed: "Adeus! Sua conta foi cancelada com sucesso. Esperamos vê-lo novamente em breve."
+      signed_up: "Bem-vindo! Você se registrou com sucesso."
+      signed_up_but_inactive: "Você se registrou com sucesso. No entanto, não conseguimos fazer login porque sua conta ainda não está ativada."
+      signed_up_but_locked: "Você se registrou com sucesso. No entanto, não conseguimos fazer login porque sua conta está bloqueada."
+      signed_up_but_unconfirmed: "Uma mensagem com um link de confirmação foi enviada para o seu endereço de e-mail. Por favor, siga o link para ativar sua conta."
+      update_needs_confirmation: "Você atualizou sua conta com sucesso, mas precisamos verificar seu novo endereço de e-mail. Verifique seu e-mail e siga o link de confirmação para confirmar seu novo endereço de e-mail."
+      updated: "Sua conta foi atualizada com sucesso."
+      updated_but_not_signed_in: "Sua conta foi atualizada com sucesso, mas como sua senha foi alterada, você precisa fazer login novamente."
+    sessions:
+      signed_in: "Login realizado com sucesso."
+      signed_out: "Logout realizado com sucesso."
+      already_signed_out: "Logout já realizado com sucesso."
+    unlocks:
+      send_instructions: "Você receberá um e-mail com instruções sobre como desbloquear sua conta em alguns minutos."
+      send_paranoid_instructions: "Se sua conta existir, você receberá um e-mail com instruções sobre como desbloqueá-la em alguns minutos."
+      unlocked: "Sua conta foi desbloqueada com sucesso. Faça login para continuar."
+  errors:
+    messages:
+      already_confirmed: "já estava confirmado, tente fazer login"
+      confirmation_period_expired: "precisa ser confirmado dentro de %{period}, solicite um novo"
+      expired: "expirou, solicite um novo"
+      not_found: "não encontrado"
+      not_locked: "não estava bloqueado"
+      not_saved:
+        one: "1 erro impediu que este %{resource} fosse salvo:"
+        other: "%{count} erros impediram que este %{resource} fosse salvo:"
+  sidebar:
+    title: 'Ping Watch'
+  fields:
+    new_site_button: 'Adicionar Site'
+    url: 'Url'
+    create_site_button: Criar Site
+    new_site_title_page: 'Novo Site'
+    back_page_button: 'Voltar'
+    clear_fields: 'Limpar'
+  notice:
+    notice_create_site_sucess: 'Site adicionado com sucesso'
+  login:
+    session:
+      sign_in: 'Por favor, entre'
+    fields:
+      email: 'E-mail'
+      password: 'Senha'
+      remember_me: 'Lembrar de mim?'
+      sign_in_button: 'Entrar'
+      sign_out_button: 'Sair da Conta'
+      sign_up: 'Inscreva-se'
+      forgot_password?: 'Esqueceu a senha?'
+      new_site_button: 'Adicionar Site'
+      url: 'Url'
+      create_site_button: Criar Site
+  mailers:
+    site_mailer_subject: 'O site %{hostname} mudou de status'
+    xlsx_extract_subject: 'Seu extrato XLSX foi gerado'
+  dashboard:
+    page_title: 'Monitoramento de Sites'
+    page_subtitle: 'Aqui você pode acompanhar o status de todos os seus sites em tempo real. Mantenha-se informado sobre a performance e disponibilidade'
+  chart:
+    page_title: 'Análise de Gráficos'
+    page_subtitle: 'Visualize e analise as métricas de desempenho dos sites monitorados. Use os gráficos para identificar padrões e tomar decisões informadas.'
+    average_response_title: 'Sites por Tempo de Espera'
+    sites_per_status_title: 'Sites por Status'
+    sites_checks_by_hour_of_day: 'Status por Hora do Dia'
+    sites_checks_response_time_trend: 'Tendência de Tempo de Resposta ( Semanal )'
+  extract:
+    title_button: 'Exportar Relatório (XLSX)'

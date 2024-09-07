@@ -1,0 +1,83 @@
+version: '3.4'
+
+x-backend:
+  &backend
+  build: 
+    context: .
+    dockerfile: ./Dockerfile.dev
+  volumes:  
+    - '.:/app'
+  env_file: .env
+  environment:
+    PORT: ${BACKEND_PORT}
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    RAILS_ENV: development
+    DATABASE_HOST: db
+    DATABASE_USER: postgres
+    DATABASE_PASSWORD: postgres
+    DATABASE_NAME: backend_development
+    REDIS_URL: ${REDIS_URL}
+  depends_on:
+    - db
+    - mailhog
+    - redis
+  networks:
+    - backend_development
+  stdin_open: true
+  tty: true
+
+services:
+  backend:
+    container_name: ping-watch-backend
+    ports:
+    - '3001:3001'
+    <<: *backend
+
+  db:
+    image: postgres:10.17
+    container_name: database_backend
+    environment: 
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: backend_development
+    networks:
+      - backend_development
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+      - bundle_cache:/bundle
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - '1025:1025'  # SMTP port
+      - '8025:8025'  # Web UI port
+    networks:
+      - backend_development
+
+  sidekiq:
+    <<: *backend
+    command: ruby wait-for-redis.rb
+    networks:
+      - backend_development
+    depends_on:
+      - redis
+      - backend
+
+  redis:
+    container_name: redis
+    image: 'redis:6.2-alpine'
+    command: redis-server
+    networks:
+      - backend_development
+    ports:
+      - "6379"
+    volumes:
+      - redis:/data
+
+networks:
+  backend_development:
+
+volumes:
+  bundle_cache:
+  postgres:
+  redis:
