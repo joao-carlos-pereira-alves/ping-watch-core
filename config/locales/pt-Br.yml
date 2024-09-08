@@ -153,7 +153,7 @@ pt-BR:
       password: 'Senha'
       remember_me: 'Lembrar de mim?'
       sign_in_button: 'Entrar'
-      sign_out_button: 'Sair da Conta'
+      sign_out_button: 'Sair'
       sign_up: 'Inscreva-se'
       forgot_password?: 'Esqueceu a senha?'
       new_site_button: 'Adicionar Site'

@@ -7,7 +7,7 @@
 
         <div class="card-body">
           <p class="lh-1 mb-1 fs-3">
-            <%= 2 %>
+            <%= @sites.count %>
           </p>
         </div>
       </div>
@@ -21,7 +21,7 @@
 
         <div class="card-body">
           <p class="lh-1 mb-1 fs-3">
-            <%= 2 %>
+            <%= @inactivated_sites %>
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@
 
         <div class="card-body">
           <p class="lh-1 mb-1 fs-3">
-            232 ms
+            <%= @average_response_time_for_all_sites %> ms
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@
 
         <div class="card-body">
           <p class="lh-1 mb-1 fs-3">
-            0.5 %
+            <%= @uptime_geral %> %
           </p>
         </div>
       </div>

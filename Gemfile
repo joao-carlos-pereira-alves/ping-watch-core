@@ -17,6 +17,12 @@ gem 'turbo-rails'
 # Use Sidekiq for create JOBs
 gem 'sidekiq'
 
+# Use Devise
+gem 'devise'
+
+# Use for group by dates
+gem 'groupdate'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -30,3 +36,5 @@ end
 group :development do
   gem 'listen', '~> 3.3'
 end
+
+gem 'dockerfile-rails', '>= 1.6', :group => :development
