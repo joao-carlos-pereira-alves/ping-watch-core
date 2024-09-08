@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for ping-watch on 2024-09-07T22:44:57-03:00
+# fly.toml app configuration file generated for ping-watch on 2024-09-07T20:41:42-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -8,6 +8,13 @@ primary_region = 'gig'
 console_command = '/rails/bin/rails console'
 
 [build]
+
+[deploy]
+  release_command = './bin/rails db:prepare'
+
+[processes]
+  app = './bin/rails server'
+  sidekiq = 'bundle exec sidekiq'
 
 [http_service]
   internal_port = 3000
@@ -21,3 +28,7 @@ console_command = '/rails/bin/rails console'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[[statics]]
+  guest_path = '/rails/public'
+  url_prefix = '/'
