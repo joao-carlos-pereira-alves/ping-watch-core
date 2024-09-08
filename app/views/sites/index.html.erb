@@ -1,0 +1,170 @@
+<!-- Content Wrapper -->
+
+<div class="d-flex flex-column content" id="contentContainer">
+    <div class="container-fluid">
+    <% if notice %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= notice %>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="notice alert-danger alert-dismissible fade show" role="alert">
+        <%= alert %>
+      </div>
+    <% end %>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('dashboard.page_title') %></h1>
+                <span class="mb-0 font-weight-light"><%= I18n.t('dashboard.page_subtitle') %></span>
+            </div>
+            <div>
+                <%= link_to I18n.t('extract.title_button'), send_extract_xlsx_mailer_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-primary shadow-sm wd-100' %>
+                <%= link_to I18n.t('login.fields.new_site_button'), new_site_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-success shadow-sm wd-100' %>
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Sites Monitorados</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <%= @sites.count %>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Sites em Tempo de Inatividade</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @inactivated_sites %></div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tempo Médio de Resposta
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 font-weight-bold text-gray-800"><%= @average_response_time_for_all_sites %> ms</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Uptime Geral (%)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @uptime_geral %>%</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            Sites Cadastrados
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome do Site</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Adicionado Em</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @sites.first(15).each_with_index do |site, i| %>
+                                    <tr>
+                                        <th scope="row"><%= i + 1 %></th>
+                                        <td><%= site.hostname %></td>
+                                        <td><%= site.status_label %></td>
+                                        <td><%= site.created_at&.strftime("%d/%m/%Y às %H:%M") %></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('turbo:load', function() {
+    const contentContainer = document.getElementById('contentContainer');
+
+    function updateContentClass() {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            contentContainer.classList.add('content');
+        } else {
+            contentContainer.classList.remove('content');
+        }
+    }
+
+    // Verifica quando a página é carregada
+    updateContentClass();
+
+    // Adiciona ou remove a classe quando a janela é redimensionada
+    window.addEventListener('resize', updateContentClass);
+
+    setTimeout(() => {
+        const alertDiv = document.querySelector('.alert');
+        const noticeDiv = document.querySelector('.notice');
+
+        if (alertDiv) alertDiv.remove();
+        if (noticeDiv) noticeDiv.remove();
+    }, 3000);
+});
+</script>
