@@ -17,7 +17,7 @@
           <div
             class="card-body"
             data-controller="chart"
-            data-chart-data-value='<%= @cumulative_orders_total.to_json %>'
+            data-chart-data-value='<%= @site_checks_by_hour_of_day.to_json %>'
           >
             <canvas data-chart-target="canvas"></canvas>
           </div>
@@ -29,7 +29,7 @@
           <div
             class="card-body"
             data-controller="chart"
-            data-chart-data-value='<%= @order_items_quantity.to_json %>'
+            data-chart-data-value='<%= @site_status_summary.to_json %>'
           >
             <canvas data-chart-target="canvas"></canvas>
           </div>
@@ -41,7 +41,20 @@
           <div
             class="card-body"
             data-controller="chart"
-            data-chart-data-value='<%= @best_seller_order_items.to_json %>'
+            data-chart-data-value='<%= @average_response_time_per_site.to_json %>'
+            data-chart-type-value='bar'
+          >
+            <canvas data-chart-target="canvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card">
+          <div
+            class="card-body"
+            data-controller="chart"
+            data-chart-data-value='<%= @group_response_time_trend.to_json %>'
             data-chart-type-value='bar'
           >
             <canvas data-chart-target="canvas"></canvas>

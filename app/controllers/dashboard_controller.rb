@@ -10,8 +10,13 @@ class DashboardController < ApplicationController
 
     service = DashboardService.new(@orders)
 
-    @cumulative_orders_total = service.cumulative_orders_total
-    @order_items_quantity = service.order_items_quantity
-    @best_seller_order_items = service.best_seller_order_items
+    @group_response_time_trend = current_user.group_response_time_trend
+    @site_checks_by_hour_of_day = current_user.site_checks_by_hour_of_day
+    @site_status_summary = current_user.site_status_summary
+    @average_response_time_per_site = current_user.average_response_time_per_site
+    @sites = Site.where(user: current_user)
+    @inactivated_sites = @sites.where.not(status: :online).count
+    @average_response_time_for_all_sites = current_user.average_response_time_for_all_sites
+    @uptime_geral = Site.uptime_geral(@sites)&.round(2)
   end
 end

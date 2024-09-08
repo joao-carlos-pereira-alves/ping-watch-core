@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1><%= I18n.t('mailers.site_mailer_subject', hostname: @hostname) %></h1>
+    <p>O status do site <%= @url %> foi alterado.</p>
+    <p>Novo status: <%= @status %></p>
+  </body>
+</html>

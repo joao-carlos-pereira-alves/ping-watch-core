@@ -3,8 +3,31 @@ FROM ruby:3.1.0
 
 ENV TZ=America/Sao_Paulo
 
-# Instala as bibliotecas de sistema necessárias
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs cron npm
+# Install packages needed to build gems and node modules
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential curl libpq-dev node-gyp pkg-config python-is-python3
+
+# Update gems and bundler
+RUN gem update --system --no-document && \
+    gem install -N bundler
+
+# Install JavaScript dependencies
+ARG NODE_VERSION=18.0.0
+ARG YARN_VERSION=1.22.19
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    npm install -g yarn@$YARN_VERSION && \
+    rm -rf /tmp/node-build-master
+
+# Install application gems
+COPY --link Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+
+# Install node modules
+COPY --link package.json package-lock.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 # Define o diretório de trabalho dentro do container
 RUN mkdir /app
@@ -18,21 +41,18 @@ ENV RAILS_LOG_TO_STDOUT=true
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 
-RUN npm i
-
-# Instala as dependências do bundle
 RUN bundle install
 
 # Copia o restante do código da aplicação para o diretório de trabalho
 COPY . .
 
+# Cria diretórios necessários
 RUN mkdir -p tmp/pids
 
-# Compila os assets, se estiver usando o Rails com assets pipeline
-RUN bundle exec rake assets:precompile
-
+# Copia o script de entrada e o torna executável
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
+
 EXPOSE 80
 ENTRYPOINT ["entrypoint.sh"]
 

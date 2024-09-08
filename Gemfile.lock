@@ -73,17 +73,28 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
     base64 (0.1.1)
+    bcrypt (3.1.20)
     builder (3.2.4)
     byebug (11.1.3)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.3)
+    devise (4.9.4)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
+    dockerfile-rails (1.6.17)
+      rails (>= 3.0.0)
     erubi (1.12.0)
     faker (3.2.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.2)
     globalid (1.2.1)
+      activesupport (>= 6.1)
+    groupdate (6.4.0)
       activesupport (>= 6.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -121,6 +132,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
+    orm_adapter (0.5.0)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
@@ -170,6 +182,9 @@ GEM
     redis-client (0.17.0)
       connection_pool
     regexp_parser (2.8.1)
+    responders (3.1.1)
+      actionpack (>= 5.2)
+      railties (>= 5.2)
     rexml (3.2.6)
     rubocop (1.56.4)
       base64 (~> 0.1.1)
@@ -233,6 +248,8 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -246,7 +263,10 @@ PLATFORMS
 DEPENDENCIES
   active_link_to
   byebug
+  devise
+  dockerfile-rails (>= 1.6)
   faker
+  groupdate
   importmap-rails
   listen (~> 3.3)
   pg
