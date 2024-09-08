@@ -68,7 +68,7 @@ class User < ApplicationRecord
 
   def send_extract_xlsx_mailer
     Thread.new do
-      SiteMailer.extract_xlsx(self).deliver_later
+      SiteMailer.extract_xlsx(self).deliver_now
     end
   end
 

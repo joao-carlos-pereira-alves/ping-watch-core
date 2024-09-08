@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_23_225553) do
     t.bigint "user_id"
     t.string "url"
     t.integer "status", default: 0
-    t.string "uuid", default: "56986f18-fba6-42be-a25c-c5b7f8f54bf2"
+    t.string "uuid", default: "7814d3ae-7419-4a1f-830e-2ae820fd5c44"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hostname"

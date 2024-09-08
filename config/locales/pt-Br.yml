@@ -173,4 +173,4 @@ pt-BR:
     sites_checks_by_hour_of_day: 'Status por Hora do Dia'
     sites_checks_response_time_trend: 'Tendência de Tempo de Resposta ( Semanal )'
   extract:
-    title_button: 'Exportar Relatório (XLSX)'
+    title_button: 'Exportar Relatório'
