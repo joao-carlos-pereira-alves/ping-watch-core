@@ -172,6 +172,7 @@ pt-BR:
     page_title: 'Análise de Gráficos'
     page_subtitle: 'Visualize e analise as métricas de desempenho dos sites monitorados. Use os gráficos para identificar padrões e tomar decisões informadas.'
     average_response_title: 'Sites por Tempo de Espera'
+    site_status_distribution: 'Distribuição de Status'
     sites_per_status_title: 'Sites por Status'
     sites_checks_by_hour_of_day: 'Status por Hora do Dia'
     sites_checks_response_time_trend: 'Tendência de Tempo de Resposta ( Semanal )'
