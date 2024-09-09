@@ -1,5 +1,5 @@
 <%= form_with(model: site, url: sites_path) do |form| %>
-  <% if site.errors.any? %>
+  <% if site&.errors&.any? %>
     <div style="color: red">
       <h2><%= pluralize(site.errors.count, "error") %> prohibited this site from being saved:</h2>
 
@@ -17,7 +17,7 @@
   </div>
 
   <div class="wd-100 text-end">
-    <%= link_to I18n.t('fields.back_page_button'), sites_path, class:" btn btn-md btn-outline-primary" %>
-    <%= form.submit I18n.t('fields.create_site_button'), class:" btn btn-md btn-primary" %>
+    <%= link_to I18n.t('fields.back_page_button'), sites_path, class:"btn btn-md btn-outline-primary" %>
+    <%= form.submit params[:id]&.present? ? I18n.t('fields.update_site_button') : I18n.t('fields.create_site_button'), class:" btn btn-md btn-primary" %>
   </div>
 <% end %>

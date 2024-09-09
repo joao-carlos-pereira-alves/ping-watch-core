@@ -140,11 +140,14 @@ pt-BR:
     new_site_button: 'Adicionar Site'
     url: 'Url'
     create_site_button: Criar Site
+    update_site_button: Atualizar Site
     new_site_title_page: 'Novo Site'
     back_page_button: 'Voltar'
     clear_fields: 'Limpar'
   notice:
-    notice_create_site_sucess: 'Site adicionado com sucesso'
+    create_site_sucess: 'Site adicionado com sucesso'
+    update_site_sucess: 'Site atualizado com sucesso'
+    delete_site_sucess: 'Site excluído com sucesso'
   login:
     session:
       sign_in: 'Por favor, entre'

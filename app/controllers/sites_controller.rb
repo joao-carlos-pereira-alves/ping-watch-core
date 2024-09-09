@@ -21,7 +21,7 @@ class SitesController < ApplicationController
     @site = Site.new(site_params)
 
     if @site.save
-      redirect_to dashboard_index_path, notice: I18n.t('notice.notice_create_site_sucess')
+      redirect_to sites_path, notice: I18n.t('notice.create_site_sucess')
     else
       redirect_to new_site_path
     end
@@ -30,19 +30,18 @@ class SitesController < ApplicationController
   # PATCH/PUT /sites/1
   def update
     if @site.update(site_params)
-      @site
+      redirect_to sites_path, notice: I18n.t('notice.update_site_sucess')
     else
-      render json: @site.errors, status: :unprocessable_entity
+      redirect_to edit_site_path(@site.uuid)
     end
   end
 
   # DELETE /sites/1
   def destroy
-    if @site
-      @site.destroy
-      head :no_content # No content response indicates successful deletion
+    if @site&.destroy
+      redirect_to sites_path, notice: I18n.t('notice.delete_site_sucess') # No content response indicates successful deletion
     else
-      head :not_found # Respond with 404 Not Found if the record doesn't exist
+      redirect_to sites_path, alert: 'Não foi possível realizar a exclusão deste site' # Respond with 404 Not Found if the record doesn't exist
     end
   end
 
@@ -61,7 +60,7 @@ class SitesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def site_params
-    params[:site][:user_id] = current_user.id
+    params[:site][:user_id] = current_user.id if params && params[:site].present?
     params.require(:site).permit(:url, :user_id)
   end
 end

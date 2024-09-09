@@ -19,6 +19,7 @@ class Site < ApplicationRecord
   }
 
   after_create_commit :check_site_status
+  before_create :update_uuid
   after_update :send_status_change_email, if: :status_changed?
 
   def average_response_time
@@ -108,6 +109,10 @@ class Site < ApplicationRecord
   end
 
   private
+
+  def update_uuid
+    self.uuid = SecureRandom.uuid
+  end
 
   # Método chamado após a atualização do registro
   def send_status_change_email

@@ -2,107 +2,16 @@
 
 <div class="d-flex flex-column content" id="contentContainer">
     <div class="container-fluid">
-    <% if notice %>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <%= notice %>
-      </div>
-    <% end %>
-    <% if alert %>
-      <div class="notice alert-danger alert-dismissible fade show" role="alert">
-        <%= alert %>
-      </div>
-    <% end %>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <div>
                 <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('dashboard.page_title') %></h1>
                 <span class="mb-0 font-weight-light"><%= I18n.t('dashboard.page_subtitle') %></span>
             </div>
             <div>
-                <%= link_to I18n.t('extract.title_button'), send_extract_xlsx_mailer_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-primary shadow-sm wd-100' %>
-                <%= link_to I18n.t('login.fields.new_site_button'), new_site_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-success shadow-sm wd-100' %>
+                <%= link_to I18n.t('extract.title_button'), send_extract_xlsx_mailer_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-dark shadow-sm wd-100' %>
+                <%= link_to I18n.t('login.fields.new_site_button'), new_site_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-dark shadow-sm wd-100' %>
             </div>
         </div>
-        <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Sites Monitorados</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <%= @sites.count %>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Sites em Tempo de Inatividade</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @inactivated_sites %></div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tempo Médio de Resposta
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 font-weight-bold text-gray-800"><%= @average_response_time_for_all_sites %> ms</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Uptime Geral (%)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @uptime_geral %>%</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-comments fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
 
             <!-- Area Chart -->
             <div class="col-12">
@@ -121,6 +30,7 @@
                                     <th scope="col">Nome do Site</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Adicionado Em</th>
+                                    <th scope="col">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,6 +40,24 @@
                                         <td><%= site.hostname %></td>
                                         <td><%= site.status_label %></td>
                                         <td><%= site.created_at&.strftime("%d/%m/%Y às %H:%M") %></td>
+                                        <td class="row">
+                                            <div class="col-1">
+                                                <%= active_link_to site_path(site.uuid), class: 'nav-link', id: "view-#{i}" do %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye" aria-hidden="true">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path>
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>
+                                                <% end %>
+                                            </div>
+                                            <div class="col-1">
+                                                <%= button_to site_path(site.uuid), class: 'nav-link', method: :delete do %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x" aria-hidden="true">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                <% end %>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <% end %>
                             </tbody>

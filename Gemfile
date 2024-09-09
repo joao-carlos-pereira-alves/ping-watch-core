@@ -16,6 +16,7 @@ gem 'turbo-rails'
 
 # Use Sidekiq for create JOBs
 gem 'sidekiq'
+gem 'sidekiq-scheduler'
 
 # Use Devise
 gem 'devise'
