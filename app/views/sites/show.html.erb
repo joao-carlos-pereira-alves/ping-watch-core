@@ -38,8 +38,8 @@
         </div>
         <div class="card-body p-0">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Tempo Médio de Resposta:</strong> <%= @site.average_response_time %> ms</li>
-            <li class="list-group-item"><strong>Tempo de Atividade:</strong> <%= @site.uptime_percentage %> %</li>
+            <li class="list-group-item"><strong>Tempo Médio de Resposta:</strong> <%= @site.average_response_time %> <small>ms</small></li>
+            <li class="list-group-item"><strong>Tempo de Atividade:</strong> <%= @site.uptime_percentage %>%</li>
             <li class="list-group-item"><strong>Número de Checagens:</strong> <%= @site.site_checks.size %></li>
           </ul>
         </div>

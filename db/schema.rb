@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_23_225553) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_10_002922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -21,6 +21,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_23_225553) do
     t.integer "total_processed", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "alert_type", default: 0, null: false
+    t.float "threshold_value"
+    t.integer "frequency", default: 0
+    t.boolean "enabled", default: true, null: false
+    t.integer "notification_method", default: 0
+    t.datetime "last_notified_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "order_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -73,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_23_225553) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "notifications", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "site_checks", "sites"
 end

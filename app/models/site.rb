@@ -49,7 +49,7 @@ class Site < ApplicationRecord
   def site_status_distribution
     # Contar a quantidade de cada status
     status_counts = site_checks.group(:check_status).count
-  
+
     # Definir cores para cada status
     status_colors = {
       'unknown' => '#6c757d',   # Cinza para Unknown
@@ -57,12 +57,12 @@ class Site < ApplicationRecord
       'offline' => '#dc3545',   # Vermelho para Offline
       'timeout' => '#ffc107',   # Amarelo para Timeout
       'maintenance' => '#17a2b8', # Azul para Maintenance
-      'forbidden' => '#fd7e14'   # Laranja para Forbidden
+      'forbidden' => '#fd7e14' # Laranja para Forbidden
     }
-  
+
     # Ordenar os dados por status
     sorted_status_counts = status_counts.sort_by { |status, _| status }.to_h
-  
+
     {
       labels: sorted_status_counts.keys.map(&:capitalize), # Labels dos status
       datasets: [
@@ -75,14 +75,14 @@ class Site < ApplicationRecord
       ]
     }
   end
-    
 
   def uptime_percentage
     total_checks = site_checks.count
     return 0 if total_checks.zero?
 
     checks_ligado = site_checks.where(check_status: :online).count
-    (checks_ligado.to_f / total_checks) * 100
+
+    ((checks_ligado.to_f / total_checks) * 100).round(1)
   end
 
   def self.uptime_geral(sites)

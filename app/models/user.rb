@@ -2,11 +2,14 @@
 
 class User < ApplicationRecord
   has_many :sites, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  after_create :create_notification
 
   def average_response_time_for_all_sites
     site_checks
@@ -168,5 +171,9 @@ class User < ApplicationRecord
     SiteCheck
       .joins(:site)
       .where(sites: { id: sites.select(:id) }) # Filtra site_checks pelo id dos sites associados ao usuário
+  end
+
+  def create_notification
+    Notification.create(user: self, notification_method: :email, alert_type: :response_time, frequency: :hourly)
   end
 end
