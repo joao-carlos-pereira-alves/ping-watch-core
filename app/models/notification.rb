@@ -15,10 +15,12 @@ class Notification < ApplicationRecord
   }
 
   enum frequency: {
-    hourly: 0,
-    minutes: 1,
-    daily: 2,
-    immediate: 3
+    every_5_minutes: 0,
+    every_10_minutes: 1,
+    every_30_minutes: 2,
+    hourly: 3,
+    immediate: 4,
+    daily: 5
   }
 
   enum notification_method: {
@@ -31,6 +33,8 @@ class Notification < ApplicationRecord
 
   validates :notification_method,
             uniqueness: { scope: %i[user_id], message: 'Método de notificação já cadastrado' }
+
+  validate :threshold_value_validation
 
   def perform(site)
     notification_strategy = map_notification_method_strategy
@@ -64,16 +68,54 @@ class Notification < ApplicationRecord
     end
   end
 
+  def self.map_alert_type_label(key)
+    case key
+    when 'response_time'
+      'Tempo de Resposta'
+    when 'status_code'
+      'Código de Status'
+    when 'uptime'
+      'Tempo de Atividade'
+    else
+      'Tipo Desconhecido'
+    end
+  end
+
   def frequency_label
     case frequency
-    when 'hourly'
-      'A cada Hora'
-    when 'minutes'
-      'A cada Minuto'
-    when 'daily'
-      'Diário'
     when 'immediate'
       'Imediato'
+    when 'every_5_minutes'
+      'A cada 5 Minutos'
+    when 'every_10_minutes'
+      'A cada 10 Minutos'
+    when 'every_30_minutes'
+      'A cada 30 Minutos'
+    when 'hourly'
+      'A cada Hora'
+    when 'daily'
+      'Diário'
+    else
+      'Frequência desconhecida'
+    end
+  end
+
+  def self.map_frequency_label(frequency)
+    case frequency
+    when 'immediate'
+      'Imediato'
+    when 'every_5_minutes'
+      'A cada 5 Minutos'
+    when 'every_10_minutes'
+      'A cada 10 Minutos'
+    when 'every_30_minutes'
+      'A cada 30 Minutos'
+    when 'hourly'
+      'A cada Hora'
+    when 'daily'
+      'Diário'
+    else
+      'Frequência desconhecida'
     end
   end
 
@@ -115,5 +157,30 @@ class Notification < ApplicationRecord
       puts "\n Estratégia de notificação não permitida."
       nil
     end
+  end
+
+  def threshold_value_validation
+    case alert_type
+    when 'status_code'
+      unless valid_status_code?(threshold_value)
+        errors.add(:threshold_value, 'deve ser um código de status HTTP válido (100 a 599)')
+      end
+    when 'response_time'
+      errors.add(:threshold_value, 'deve ser um valor numérico maior que zero') unless threshold_value&.to_i&.> 0
+
+      if threshold_value.to_i < 1 || threshold_value.to_i > 5000
+        errors.add(:threshold_value, 'deve ser um valor numérico entre 1 e 5000 ms')
+      end
+    when 'uptime'
+      unless threshold_value&.to_i&.between?(0, 100)
+        errors.add(:threshold_value,
+                   'deve ser um percentual entre 0 e 100')
+      end
+    end
+  end
+
+  # Verifica se o código de status HTTP é válido
+  def valid_status_code?(value)
+    value.to_s.match?(/\A[1-5][0-9]{2}\z/) # Regex para códigos de status entre 100 e 599
   end
 end

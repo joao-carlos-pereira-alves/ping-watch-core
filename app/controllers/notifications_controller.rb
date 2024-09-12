@@ -34,7 +34,7 @@ class NotificationsController < ApplicationController
   # PATCH/PUT /notifications/1
   def update
     if @notification.update(notification_params)
-      redirect_to @notification, notice: 'Notification was successfully updated.', status: :see_other
+      redirect_to notification_path(@notification.uuid), notice: I18n.t('notification.success_update')
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class NotificationsController < ApplicationController
   # DELETE /notifications/1
   def destroy
     @notification.destroy
-    redirect_to notifications_url, notice: 'Notification was successfully destroyed.', status: :see_other
+    redirect_to notifications_url, notice: 'Notification was successfully destroyed.'
   end
 
   private
@@ -55,6 +55,6 @@ class NotificationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def notification_params
-    params.fetch(:notification, {})
+    params.fetch(:notification).permit(:alert_type, :frequency, :threshold_value, :enabled)
   end
 end
