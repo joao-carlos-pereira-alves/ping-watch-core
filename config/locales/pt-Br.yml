@@ -181,3 +181,12 @@ pt-BR:
   notification:
     page_title: 'Notificações'
     page_subtitle: 'Gerencie e configure notificações de monitoramento de sites. Defina métodos de envio e acompanhe alertas importantes em tempo real para manter a performance sob controle.'
+    success_update: 'Notificação atualizada com sucesso'
+    error: 'Não foi possível realizar a operação, por favor, aguarde uns instantes e tente novamente mais tarde'
+    threshold_value: 'Limite'
+    alert_type: 'Tipo de Alerta'
+    frequency: 'Frequência'
+    notification_method: 'Método de Notificação'
+  buttons:
+    create: 'Criar'
+    update: 'Atualizar'

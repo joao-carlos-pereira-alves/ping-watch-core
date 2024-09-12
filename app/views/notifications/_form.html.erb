@@ -1,11 +1,11 @@
-<%= form_with(model: notification) do |form| %>
+<%= form_with(model: notification, url: notification.persisted? ? notification_path(notification.uuid) : notifications_path, method: notification.persisted? ? :patch : :post) do |form| %>
   <% if notification.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(notification.errors.count, "error") %> prohibited this notification from being saved:</h2>
+    <div class="text-danger">
+      <h2><%= pluralize(notification.errors.count, "erro") %> proibiu que esta notificação fosse salva:</h2>
 
       <ul>
         <% notification.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li><%= "#{I18n.t("notification.#{error.attribute}")} #{error.message}" %></li>
         <% end %>
       </ul>
     </div>
@@ -15,23 +15,19 @@
     <!-- Tipo de Alerta -->
     <div class="mb-3">
       <h6><strong>Tipo de Alerta:</strong></h6>
-      <p>
-        <%= notification.alert_type_label %>
-      </p>
+      <%= form.select :alert_type, Notification.alert_types.keys.reject(&:blank?).map { |key| [Notification.map_alert_type_label(key), key] }, {}, class: 'form-control', id: 'alert_type_select', onchange: 'changeThresholdInputType()', include_blank: false, include_hidden: false %>
     </div>
 
     <!-- Valor Limite (Threshold) -->
-    <div class="mb-3">
+      <div class="mb-3">
       <h6><strong>Valor Limite (Threshold):</strong></h6>
-      <p><%= notification.threshold_value_label %></p>
+      <%= form.number_field :threshold_value, class: 'form-control', step: 'any', required: true %>
     </div>
 
     <!-- Frequência -->
     <div class="mb-3">
       <h6><strong>Frequência de Verificação:</strong></h6>
-      <p>
-        <%= notification.frequency_label %>
-      </p>
+      <%= form.select :frequency, Notification.frequencies.keys.map { |key| [Notification.map_frequency_label(key), key] }, {}, class: 'form-control', include_blank: false, include_hidden: false %>
     </div>
 
     <!-- Método de Notificação -->
@@ -45,13 +41,8 @@
     <!-- Status da Notificação (Ativo/Inativo) -->
     <div class="mb-3">
       <h6><strong>Status:</strong></h6>
-      <p>
-        <% if notification.enabled %>
-          <span class="badge bg-success">Ativo</span>
-        <% else %>
-          <span class="badge bg-danger">Inativo</span>
-        <% end %>
-      </p>
+      <%= form.check_box :enabled %>
+      <%= form.label :enabled, 'Ativo' %>
     </div>
 
     <!-- Última Notificação Enviada -->
@@ -65,6 +56,44 @@
         <% end %>
       </p>
     </div>
-    <%= form.submit %>
+
+    <%= form.submit I18n.t('buttons.update'), class: 'btn btn-outline-dark' %>
   </div>
 <% end %>
+
+<script>
+  function changeThresholdInputType() {
+    const alertType = document.getElementById('alert_type_select').value;
+    const thresholdInput = document.getElementById('threshold_input');
+
+    // Defina o tipo de input baseado no tipo de alerta
+    switch (alertType) {
+      case 'response_time':
+        thresholdInput.type = 'number';
+        thresholdInput.step = 'any';  // Permitir decimais
+        thresholdInput.max = 5000
+        thresholdInput.min = 1
+        thresholdInput.placeholder = 'Tempo de resposta em ms';
+        thresholdInput.value = null
+        break;
+      case 'status_code':
+        thresholdInput.type = 'number';
+        thresholdInput.step = '1';  // Apenas inteiros
+        thresholdInput.placeholder = 'Código de status HTTP';
+        thresholdInput.value = null
+        break;
+      case 'uptime':
+        thresholdInput.type = 'number';
+        thresholdInput.step = 'any';
+        thresholdInput.placeholder = 'Percentual de uptime (%)';
+        thresholdInput.value = null
+        break;
+      default:
+        thresholdInput.type = 'text';  // Pode ser outro tipo dependendo da lógica
+        thresholdInput.placeholder = '';
+    }
+  }
+
+  // Chame a função ao carregar a página para ajustar o input conforme o valor inicial
+  document.addEventListener('DOMContentLoaded', changeThresholdInputType);
+</script>
