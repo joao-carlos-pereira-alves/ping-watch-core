@@ -64,7 +64,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @site.site_checks.each do |check| %>
+              <% @site.site_checks.last(10).each do |check| %>
                 <tr>
                   <td><%= check.created_at.strftime("%d/%m/%Y %H:%M") %></td>
                   <td>

@@ -20,7 +20,7 @@ class Site < ApplicationRecord
 
   after_create_commit :check_site_status
   before_create :update_uuid
-  after_update :send_status_change_email, if: :status_changed?
+  after_update :perform_notifications, if: :status_changed?
 
   def average_response_time
     site_checks.average(:response_time_ms)&.to_f&.round(2)
@@ -127,18 +127,15 @@ class Site < ApplicationRecord
       puts "Error: #{e.message}"
     ensure
       site_checks.create(check_status: status, response_time_ms: response_time)
-
-      # Save the status to your database or file
-      save_user(status, hostname)
+      save_site(status, hostname)
     end
   end
 
   def maintenance_mode?(body)
-    # Basic example: Look for a keyword or phrase indicating maintenance
     body.include?('Maintenance') || body.include?('Under Maintenance')
   end
 
-  def save_user(status, hostname)
+  def save_site(status, hostname)
     update(status: status, hostname: hostname)
   end
 
@@ -165,12 +162,12 @@ class Site < ApplicationRecord
     self.uuid = SecureRandom.uuid
   end
 
-  # Método chamado após a atualização do registro
-  def send_status_change_email
-    SiteMailer.status_change_email(self).deliver_later
+  def perform_notifications
+    user.notifications.each do |notification|
+      notification.perform(self)
+    end
   end
 
-  # Verifica se o status mudou
   def status_changed?
     saved_change_to_status?
   end

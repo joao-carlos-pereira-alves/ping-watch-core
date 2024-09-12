@@ -1,14 +1,145 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Notifications</h1>
-
-<div id="notifications">
-  <% @notifications.each do |notification| %>
-    <%= render notification %>
-    <p>
-      <%= link_to "Show this notification", notification %>
-    </p>
-  <% end %>
+<div class="mb-4 row">
+  <div class="col-12 col-sm-6">
+    <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('notification.page_title') %></h1>
+    <span class="mb-0 text-gray-800"><%= I18n.t('notification.page_subtitle') %></span>
+  </div>
+  <div class="col-12 col-sm-12 col-md-6 row justify-content-end align-items-center">
+    <div class="col-12 col-sm-3">
+      <%= active_link_to send_extract_xlsx_mailer_path, class: 'btn btn-sm btn-dark text-white shadow-sm w-100' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <%= I18n.t('extract.title_button') %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-<%= link_to "New notification", new_notification_path %>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Gerencie Suas Estratégias de Notificação</h5>
+      </div>
+      <div class="card-body">
+        <!-- Notificação por Email -->
+
+        <% @notifications.each_with_index do |notification, i| %>
+          <% if i > 0 && i < @notifications.count %>
+            <hr>
+          <% end %>
+          <div class="row">
+            <div class="col d-flex align-items-center mb-2">
+              <i class="fas fa-envelope fa-lg text-primary mr-3"></i>
+              <div>
+                <h6 class="mb-1">
+                  <%= notification.notification_method_label[:title] %>
+                </h6>
+                <p class="text-muted mb-0">
+                  <%= notification.notification_method_label[:subtitle] %>
+                </p>
+              </div>
+            </div>
+            <div class="col row justify-content-end align-items-center">
+              <div class="col col-sm-1 text-center">
+                <label class="switch">
+                  <input type="checkbox" <%= notification.enabled ? 'checked' : '' %>>
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <div class="col col-sm-2">
+                <%= link_to "Configurar", notification_path(notification.uuid), class: "btn btn-outline-dark btn-sm" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Notificações Enviadas</h5>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped table-hover mb-0">
+          <thead class="thead-light">
+            <tr>
+              <th>Identificador</th>
+              <th>Tipo de Notificação</th>
+              <th>Data de Criação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @notification_receipts&.last(10)&.each do |notification_receipt| %>
+                <tr>
+                  <td><%= notification_receipt&.receipt_number %></td>
+                  <td>
+                    <%= notification_receipt&.notification_method_label %>
+                  </td>
+                  <td><%= notification_receipt&.created_at&.strftime("%d/%m/%Y %H:%M") %></td>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #4CAF50;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(14px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+</style>
