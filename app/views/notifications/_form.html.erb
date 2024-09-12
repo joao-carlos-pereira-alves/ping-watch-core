@@ -12,6 +12,59 @@
   <% end %>
 
   <div>
+    <!-- Tipo de Alerta -->
+    <div class="mb-3">
+      <h6><strong>Tipo de Alerta:</strong></h6>
+      <p>
+        <%= notification.alert_type_label %>
+      </p>
+    </div>
+
+    <!-- Valor Limite (Threshold) -->
+    <div class="mb-3">
+      <h6><strong>Valor Limite (Threshold):</strong></h6>
+      <p><%= notification.threshold_value_label %></p>
+    </div>
+
+    <!-- Frequência -->
+    <div class="mb-3">
+      <h6><strong>Frequência de Verificação:</strong></h6>
+      <p>
+        <%= notification.frequency_label %>
+      </p>
+    </div>
+
+    <!-- Método de Notificação -->
+    <div class="mb-3">
+      <h6><strong>Método de Notificação:</strong></h6>
+      <p>
+        <%= notification.notification_method_label[:title] %>
+      </p>
+    </div>
+
+    <!-- Status da Notificação (Ativo/Inativo) -->
+    <div class="mb-3">
+      <h6><strong>Status:</strong></h6>
+      <p>
+        <% if notification.enabled %>
+          <span class="badge bg-success">Ativo</span>
+        <% else %>
+          <span class="badge bg-danger">Inativo</span>
+        <% end %>
+      </p>
+    </div>
+
+    <!-- Última Notificação Enviada -->
+    <div class="mb-3">
+      <h6><strong>Última Notificação Enviada:</strong></h6>
+      <p>
+        <% if notification.last_notified_at %>
+          <%= notification.last_notified_at.strftime("%d/%m/%Y %H:%M:%S") %>
+        <% else %>
+          Nunca notificado
+        <% end %>
+      </p>
+    </div>
     <%= form.submit %>
   </div>
 <% end %>

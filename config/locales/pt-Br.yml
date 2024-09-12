@@ -178,3 +178,6 @@ pt-BR:
     sites_checks_response_time_trend: 'Tendência de Tempo de Resposta ( Semanal )'
   extract:
     title_button: 'Exportar Relatório'
+  notification:
+    page_title: 'Notificações'
+    page_subtitle: 'Gerencie e configure notificações de monitoramento de sites. Defina métodos de envio e acompanhe alertas importantes em tempo real para manter a performance sob controle.'

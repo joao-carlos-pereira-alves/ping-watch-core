@@ -1,9 +1,10 @@
 class NotificationsController < ApplicationController
-  before_action :set_notification, only: %i[ show edit update destroy ]
+  before_action :set_notification, only: %i[show edit update destroy]
 
   # GET /notifications
   def index
-    @notifications = Notification.all
+    @notifications = current_user.notifications
+    @notification_receipts = NotificationReceipt.where(notification: @notifications)
   end
 
   # GET /notifications/1
@@ -24,7 +25,7 @@ class NotificationsController < ApplicationController
     @notification = Notification.new(notification_params)
 
     if @notification.save
-      redirect_to @notification, notice: "Notification was successfully created."
+      redirect_to @notification, notice: 'Notification was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +34,7 @@ class NotificationsController < ApplicationController
   # PATCH/PUT /notifications/1
   def update
     if @notification.update(notification_params)
-      redirect_to @notification, notice: "Notification was successfully updated.", status: :see_other
+      redirect_to @notification, notice: 'Notification was successfully updated.', status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,17 +43,18 @@ class NotificationsController < ApplicationController
   # DELETE /notifications/1
   def destroy
     @notification.destroy
-    redirect_to notifications_url, notice: "Notification was successfully destroyed.", status: :see_other
+    redirect_to notifications_url, notice: 'Notification was successfully destroyed.', status: :see_other
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_notification
-      @notification = Notification.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def notification_params
-      params.fetch(:notification, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_notification
+    @notification = Notification.find_by(uuid: params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def notification_params
+    params.fetch(:notification, {})
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_10_002922) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_11_235847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -23,16 +23,31 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_10_002922) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notification_receipts", force: :cascade do |t|
+    t.bigint "notification_id", null: false
+    t.string "receipt_number", null: false
+    t.string "status"
+    t.datetime "sent_at"
+    t.string "response_code"
+    t.text "response_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "notification_method", default: 0
+    t.index ["notification_id"], name: "index_notification_receipts_on_notification_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "alert_type", default: 0, null: false
-    t.float "threshold_value"
+    t.string "threshold_value"
     t.integer "frequency", default: 0
     t.boolean "enabled", default: true, null: false
     t.integer "notification_method", default: 0
+    t.string "uuid"
     t.datetime "last_notified_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notification_receipts_count", default: 0
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -86,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_10_002922) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "notification_receipts", "notifications"
   add_foreign_key "notifications", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "site_checks", "sites"

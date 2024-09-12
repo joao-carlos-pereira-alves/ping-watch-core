@@ -1,10 +1,25 @@
-<h1>Editing notification</h1>
 
-<%= render "form", notification: @notification %>
+<div class="mb-4 row">
+  <div class="col-12 col-sm-6">
+    <h1 class="h3 mb-0 text-gray-800"><%= @notification.notification_method_label[:title] %></h1>
+    <span class="mb-0 text-gray-800"><%= @notification.notification_method_label[:subtitle] %></span>
+  </div>
+  <div class="col-12 col-sm-12 col-md-6 row justify-content-end align-items-center">
+    <div class="col-12 col-sm-3 row justify-content-end align-items-center">
+      <%= button_to 'Editar',new_site_path, class: 'btn btn-sm text-white shadow-sm w-100 btn btn-sm btn-dark shadow-sm wd-100' %>
+    </div>
+  </div>
+</div>
 
-<br>
-
-<div>
-  <%= link_to "Show this notification", @notification %> |
-  <%= link_to "Back to notifications", notifications_path %>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Detalhes da Notificação</h5>
+      </div>
+      <div class="card-body p-4">
+        <%= render "form", notification: @notification %>
+      </div>
+    </div>
+  </div>
 </div>
