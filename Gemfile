@@ -30,11 +30,19 @@ gem 'caxlsx'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'factory_bot_rails'
   gem 'faker'
+  gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+end
+
+group :test do
+  gem 'rubyXL'
+  gem 'shoulda-matchers', '~> 5.0'
+  gem 'simplecov', require: false
 end
 
 group :development do
