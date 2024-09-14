@@ -36,6 +36,8 @@ class Notification < ApplicationRecord
 
   validate :threshold_value_validation
 
+  DEFAULT_THRESHOLD_VALUE = 300
+
   def perform(site)
     notification_strategy = map_notification_method_strategy
     sender = NotificationService::NotificationSender.new(notification_strategy)

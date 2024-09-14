@@ -174,6 +174,7 @@ class User < ApplicationRecord
   end
 
   def create_notification
-    Notification.create(user: self, notification_method: :email, alert_type: :response_time, frequency: :hourly)
+    Notification.create(user: self, notification_method: :email, alert_type: :response_time, frequency: :hourly,
+                        threshold_value: Notification::DEFAULT_THRESHOLD_VALUE)
   end
 end
