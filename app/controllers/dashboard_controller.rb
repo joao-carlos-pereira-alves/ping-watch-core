@@ -2,14 +2,6 @@
 
 class DashboardController < ApplicationController
   def index
-    @orders = Order.by_date(params[:by_date])
-                   .by_product_name(params[:by_product_name])
-                   .order(:created_at)
-
-    @order_items = OrderItem.where(order_id: @orders)
-
-    service = DashboardService.new(@orders)
-
     @group_response_time_trend = current_user.group_response_time_trend
     @site_checks_by_hour_of_day = current_user.site_checks_by_hour_of_day
     @site_status_summary = current_user.site_status_summary

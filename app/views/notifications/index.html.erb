@@ -4,14 +4,6 @@
     <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('notification.page_title') %></h1>
     <span class="mb-0 text-gray-800"><%= I18n.t('notification.page_subtitle') %></span>
   </div>
-  <div class="col-12 col-sm-12 col-md-6 row justify-content-end align-items-center">
-    <div class="col-12 col-sm-3">
-      <%= active_link_to send_extract_xlsx_mailer_path, class: 'btn btn-sm btn-dark text-white shadow-sm w-100' do %>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        <%= I18n.t('extract.title_button') %>
-      <% end %>
-    </div>
-  </div>
 </div>
 
 <div class="row">
@@ -23,35 +15,32 @@
       <div class="card-body">
         <!-- Notificação por Email -->
 
-        <% @notifications.each_with_index do |notification, i| %>
-          <% if i > 0 && i < @notifications.count %>
-            <hr>
-          <% end %>
-          <div class="row">
-            <div class="col d-flex align-items-center mb-2">
-              <i class="fas fa-envelope fa-lg text-primary mr-3"></i>
-              <div>
-                <h6 class="mb-1">
-                  <%= notification.notification_method_label[:title] %>
-                </h6>
-                <p class="text-muted mb-0">
-                  <%= notification.notification_method_label[:subtitle] %>
-                </p>
-              </div>
-            </div>
-            <div class="col row justify-content-end align-items-center">
-              <div class="col col-sm-1 text-center">
-                <label class="switch">
-                  <input type="checkbox" <%= notification.enabled ? 'checked' : '' %>>
-                  <span class="slider round"></span>
-                </label>
-              </div>
-              <div class="col col-sm-2">
-                <%= link_to "Configurar", notification_path(notification.uuid), class: "btn btn-outline-dark btn-sm" %>
-              </div>
+       <% @notifications.each_with_index do |notification, i| %>
+        <% if i > 0 && i < @notifications.count %>
+          <hr>
+        <% end %>
+        <div class="row align-items-center">
+          <div class="col d-flex align-items-center mb-2">
+            <i class="fas fa-envelope fa-lg text-primary mr-3"></i>
+            <div>
+              <h6 class="mb-1">
+                <%= notification.notification_method_label[:title] %>
+              </h6>
+              <p class="text-muted mb-0">
+                <%= notification.notification_method_label[:subtitle] %>
+              </p>
             </div>
           </div>
-        <% end %>
+          <div class="col text-end">
+            <label class="switch disabled" style="margin-right: 15px;">
+              <input type="checkbox" class="disabled" disabled data-id="<%= notification.uuid %>" <%= notification.enabled ? 'checked' : '' %>>
+              <span class="slider round disabled"></span>
+            </label>
+            <%= link_to "Configurar", notification_path(notification.uuid), class: "btn btn-outline-dark btn-sm" %>
+          </div>
+        </div>
+      <% end %>
+
       </div>
     </div>
   </div>

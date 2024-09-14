@@ -55,6 +55,9 @@ pt-BR:
       short: "%d/%m %H:%M"
       long: "%d de %B de %Y %H:%M"
   activerecord:
+    errors:
+      messages:
+        record_invalid: "Registro inválido"
     attributes:
       site:
         status:
