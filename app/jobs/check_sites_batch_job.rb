@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckSitesBatchJob < ApplicationJob
   queue_as :check_site_status
 
