@@ -2,12 +2,11 @@
 FactoryBot.define do
   factory :notification do
     user
-    alert_type { :status_code }  # Valor padrão para alert_type
-    frequency { :daily }         # Valor padrão para frequency
-    notification_method { :email } # Valor padrão para notification_method
-    threshold_value { 200 } # Valor padrão para threshold_value
+    notification_method { :email }
+    threshold_value { Notification::DEFAULT_THRESHOLD_VALUE }
+    frequency { :hourly }
 
-    # Se o modelo tiver associações, certifique-se de adicionar
-    # todas as relações necessárias, como o user
+    # Adicione `sequence` se precisar garantir valores únicos
+    sequence(:notification_method) { |n| "email#{n}" }
   end
 end

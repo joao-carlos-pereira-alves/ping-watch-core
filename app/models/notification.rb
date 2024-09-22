@@ -39,9 +39,33 @@ class Notification < ApplicationRecord
   DEFAULT_THRESHOLD_VALUE = 300
 
   def perform(site)
-    notification_strategy = map_notification_method_strategy
-    sender = NotificationService::NotificationSender.new(notification_strategy)
+    last_check = site.site_checks.last
+    return unless can_notify?(last_check.response_time_ms, last_check.check_status)
+
+    sender = NotificationService::NotificationSender.new(map_notification_method_strategy)
     sender.execute(self, site)
+  end
+
+  def status_from_code
+    unless alert_type&.eql?('status_code')
+      puts "\nOperação não permitida para o tipo de alerta"
+      return nil
+    end
+
+    case threshold_value&.to_i
+    when 200..299
+      'online'
+    when 403
+      'forbidden'
+    when 503
+      'maintenance'
+    when 504
+      'timeout'
+    when 520
+      'unknown'
+    else
+      'unknown'
+    end
   end
 
   def increment_notification_receipts_count
@@ -56,6 +80,19 @@ class Notification < ApplicationRecord
       "Status: #{threshold_value}"
     when 'uptime'
       "#{threshold_value}%"
+    end
+  end
+
+  def can_notify?(response_time_ms = nil, check_status = nil)
+    return false unless alert_type.present?
+
+    case alert_type
+    when 'response_time'
+      response_time_ms.present? && response_time_ms >= threshold_value.to_i
+    when 'status_code'
+      check_status.present? && status_from_code.to_s == check_status.to_s
+    else
+      false
     end
   end
 
