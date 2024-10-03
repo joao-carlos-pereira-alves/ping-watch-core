@@ -33,11 +33,10 @@ RSpec.describe User, type: :model do
   end
 
   describe '#create_xlsx_extract_file' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, plan: Plan.last) }
     let!(:sites) do
       [
-        create(:site, url: 'http://example.com', status: :online,
-                      created_at: Time.now)
+        create(:site, url: 'http://example.com', status: :online)
       ]
     end
 

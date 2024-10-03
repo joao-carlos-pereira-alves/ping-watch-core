@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_22_162318) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_03_213656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -74,6 +74,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_22_162318) do
     t.text "features"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "monitor_sites", default: true
+    t.boolean "notifications", default: true
+    t.integer "max_sites", default: 0
+    t.integer "ping_interval", default: 15
+    t.boolean "detailed_reports", default: false
+    t.boolean "priority_support", default: false
   end
 
   create_table "site_checks", force: :cascade do |t|
