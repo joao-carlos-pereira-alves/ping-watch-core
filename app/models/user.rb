@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  belongs_to :plan
   has_many :sites, dependent: :destroy
   has_many :notifications, dependent: :destroy
 

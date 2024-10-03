@@ -1,0 +1,68 @@
+<div class="mb-4 row">
+  <div class="col-12 col-sm-6">
+    <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('plan.page_title') %></h1>
+    <span class="mb-0 text-gray-800"><%= I18n.t('plan.page_subtitle') %></span>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Plano Free -->
+  <div class="col-lg-4 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-light text-dark">
+        <h5 class="mb-0">Plano Gratuito</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">Ideal para iniciantes. Comece a monitorar seus sites sem custo.</p>
+        <ul>
+          <% Plan::BENEFITS[:free].each do |plan| %>
+            <li><%= plan %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="card-footer bg-light text-center">
+        <a href="#" class="btn btn-outline-primary">Escolher Plano</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plano Basic -->
+  <div class="col-lg-4 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Plano Básico</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">Perfeito para pequenas empresas que querem mais controle.</p>
+        <ul>
+          <% Plan::BENEFITS[:basic].each do |plan| %>
+            <li><%= plan %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="card-footer bg-primary text-center">
+        <a href="#" class="btn btn-outline-light">Escolher Plano</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plano Gold (Destaque) -->
+  <div class="col-lg-4 mb-4">
+    <div class="card shadow-lg h-100 border-warning">
+      <div class="card-header bg-warning text-white">
+        <h5 class="mb-0">Plano Gold</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">O melhor plano para grandes empresas. Máximo desempenho e suporte.</p>
+        <ul>
+          <% Plan::BENEFITS[:gold].each do |plan| %>
+            <li><%= plan %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="card-footer bg-warning text-center">
+        <a href="#" class="btn btn-outline-light">Escolher Plano</a>
+      </div>
+    </div>
+  </div>
+</div>

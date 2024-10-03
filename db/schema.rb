@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_11_235847) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_22_162318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -68,6 +68,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_11_235847) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "plans", force: :cascade do |t|
+    t.integer "name"
+    t.decimal "price"
+    t.text "features"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "site_checks", force: :cascade do |t|
     t.bigint "site_id", null: false
     t.integer "check_status", null: false
@@ -97,6 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_11_235847) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "plan_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

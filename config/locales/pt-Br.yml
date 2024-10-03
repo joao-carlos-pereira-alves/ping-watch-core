@@ -168,6 +168,9 @@ pt-BR:
   mailers:
     site_mailer_subject: 'O site %{hostname} mudou de status'
     xlsx_extract_subject: 'Seu extrato XLSX foi gerado'
+  plan:
+    page_title: 'Planos de Assinatura'
+    page_subtitle: 'Escolha o plano que melhor se adapta às suas necessidades e expanda suas possibilidades. Oferecemos opções flexíveis para acompanhar o crescimento do seu negócio.'
   dashboard:
     page_title: 'Monitoramento de Sites'
     page_subtitle: 'Aqui você pode acompanhar o status de todos os seus sites em tempo real. Mantenha-se informado sobre a performance e disponibilidade'

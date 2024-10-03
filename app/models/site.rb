@@ -18,7 +18,7 @@ class Site < ApplicationRecord
     forbidden: 5
   }
 
-  after_create_commit :check_site_status
+  after_create :check_site_status
   before_create :update_uuid
   after_update :perform_notifications, if: :status_changed?
 
