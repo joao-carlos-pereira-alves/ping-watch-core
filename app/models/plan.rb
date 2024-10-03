@@ -23,7 +23,6 @@ class Plan < ApplicationRecord
     gold: [
       'Monitoramento premium',
       'Sites ilimitados',
-      'Suporte 24/7',
       'Notificações customizadas e ilimitadas'
     ]
   }.freeze

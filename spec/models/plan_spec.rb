@@ -4,7 +4,7 @@ RSpec.describe Plan, type: :model do
   describe 'Plan::BENEFITS' do
     let(:expected_free_benefits) { ['Monitoramento básico', '1 site', 'Notificações limitadas'] }
     let(:expected_basic_benefits) { ['Monitoramento avançado', '5 sites', 'Notificações ilimitadas'] }
-    let(:expected_gold_benefits) { ['Monitoramento premium', 'Sites ilimitados', 'Suporte 24/7', 'Notificações customizadas e ilimitadas'] }
+    let(:expected_gold_benefits) { ['Monitoramento premium', 'Sites ilimitados', 'Notificações customizadas e ilimitadas'] }
 
     it 'garante que os benefícios do plano Free não mudaram' do
       expect(Plan::BENEFITS[:free]).to eq(expected_free_benefits)
