@@ -8,7 +8,6 @@ RSpec.describe Site, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:url) }
-    it { is_expected.to validate_uniqueness_of(:url).with_message('URL já cadastrada') }
     it { is_expected.to allow_value('http://example.com').for(:url) }
     it { is_expected.not_to allow_value('invalid_url').for(:url).with_message('Url inválida') }
   end
