@@ -21,7 +21,7 @@
         </div>
       <% end %>
 
-      <%= f.submit I18n.t('login.fields.sign_in_button'), class: "w-100 btn btn-lg btn-primary" %>
+      <%= invisible_recaptcha_tags(ui: :button, text: I18n.t('login.fields.sign_in_button'), class: "w-100 btn btn-lg btn-primary") %>
     <% end %>
 
     <p class="mt-4 mb-3 text-muted text-center">&copy; 2024</p>

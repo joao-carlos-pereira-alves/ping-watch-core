@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  belongs_to :plan
+  belongs_to :plan, optional: :true
   has_many :sites, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
@@ -11,6 +11,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   after_create :create_notification
+  after_create :create_plan
 
   def average_response_time_for_all_sites
     site_checks
@@ -177,5 +178,19 @@ class User < ApplicationRecord
   def create_notification
     Notification.create(user: self, notification_method: :email, alert_type: :response_time, frequency: :hourly,
                         threshold_value: Notification::DEFAULT_THRESHOLD_VALUE)
+  end
+
+  def create_plan
+    plan = Plan.find_by(name: "free")
+
+    if plan
+      self.plan = plan
+      self.save!
+    else
+      puts "\n Plano 'free' não encontrado."
+      throw(:abort) # Interrompe a criação do usuário
+    end
+  rescue StandardError => e
+    puts "\n Não foi possível cadastrar o usuário em um plano: #{e.message}"
   end
 end

@@ -1,5 +1,11 @@
 # db/seeds.rb
 
+Plan.create(name: :free)
+Plan.create(name: :basic)
+Plan.create(name: :gold)
+
+User.create(email: 'joaocarlopa@gmail.com', password: 123456)
+
 # Lista de URLs para popular a tabela de sites
 urls = [
   'https://www.google.com',
