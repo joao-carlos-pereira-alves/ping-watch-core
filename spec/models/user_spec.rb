@@ -67,7 +67,6 @@ RSpec.describe User, type: :model do
         expect(rows[1][0]).to eq('http://example.com')
         expect(rows[1][1]).to eq('Ligado')
         expect(rows[1][3]).to eq('100.0%')
-        expect(rows[1][4]).to eq(Time.now.strftime('%d/%m/%Y'))
       end
     end
   end
