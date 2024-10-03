@@ -13,6 +13,7 @@ gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
+gem 'recaptcha', require: 'recaptcha/rails'
 
 # Use Sidekiq for create JOBs
 gem 'sidekiq'
@@ -49,4 +50,5 @@ group :development do
   gem 'listen', '~> 3.3'
 end
 
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'dockerfile-rails', '>= 1.6', :group => :development
