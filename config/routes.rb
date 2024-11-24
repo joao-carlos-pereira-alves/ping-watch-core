@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
-  
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }, path: 'users'
+
   resources :notifications
   resources :sites
   resources :dashboard, only: %i[index]

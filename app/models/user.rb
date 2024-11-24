@@ -11,6 +11,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :email, presence: true
+  validates :password, presence: true, length: { minimum: 6 }
+
   after_create :create_notification
   after_create :create_plan
 
