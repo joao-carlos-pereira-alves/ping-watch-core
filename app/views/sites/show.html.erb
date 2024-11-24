@@ -24,7 +24,8 @@
           </ul>
         </div>
         <div class="card-footer text-right d-flex">
-          <a href="<%= edit_site_path(@site.uuid) %>" class="btn btn-outline-primary" style="margin-right: 6px;">Editar</a>
+          <%# Não habilitar, pois se um site for editado, impactará todos usuários que utilizam o mesmo %>
+          <%# <a href="<%= edit_site_path(@site.uuid)" class="btn btn-outline-primary" style="margin-right: 6px;">Editar</a> %>
           <%= button_to 'Excluir', site_path(@site.uuid), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esse site? Essa ação não tem volta.' }, class: "btn btn-danger" %>
         </div>
       </div>

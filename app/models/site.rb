@@ -7,8 +7,10 @@ class Site < ApplicationRecord
   has_many :user_sites, dependent: :destroy
   has_many :users, through: :user_sites
 
-  validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'Url inválida' },
-                  uniqueness: { message: 'URL já cadastrada' }
+  validates :url, presence: true, uniqueness: true,
+                  format: { with: %r{\A(?:https?://)?(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+[/\w\-\.]*\z}, message: 'não é uma URL válida' }
+
+  before_validation :normalize_url
 
   enum status: {
     unknown: 0,
@@ -161,6 +163,10 @@ class Site < ApplicationRecord
   end
 
   private
+
+  def normalize_url
+    self.url = url.chomp('/')
+  end
 
   def create_user_site
     return unless current_user
