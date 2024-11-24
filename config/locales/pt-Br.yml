@@ -58,6 +58,12 @@ pt-BR:
     errors:
       messages:
         record_invalid: "Registro inválido"
+      models:
+        site:
+          attributes:
+            url:
+              taken: 'já está em uso'
+              blank: 'é obrigatório'
     attributes:
       site:
         status:
@@ -67,7 +73,11 @@ pt-BR:
           timeout: "Tempo Esgotado"
           maintenance: "Manutenção"
           forbidden: "Não permitido o acesso"
+  hints:
+    url_hint: "Digite apenas o domínio principal (ex.: https://site.com.br), sem caminhos adicionais."
   site:
+    create_site_success: 'Site adicionado com sucesso.'
+    site_already_exists: 'Site já cadastrado.'
     status:
       unknown: "Desconhecido"
       online: "Ligado"
@@ -75,6 +85,10 @@ pt-BR:
       timeout: "Tempo Esgotado"
       maintenance: "Manutenção"
       forbidden: "Não permitido o acesso"
+    new_site_title: "Adicionar Novo Site"
+    edit_site_title: "Editar Site"
+    new_site_subtitle: "Preencha as informações abaixo para começar a monitorar seu site."
+    edit_site_subtitle: "Atualize as informações do site que você está monitorando."
   devise:
     confirmations:
       confirmed: "Seu endereço de e-mail foi confirmado com sucesso."
@@ -137,6 +151,8 @@ pt-BR:
       not_saved:
         one: "1 erro impediu que este %{resource} fosse salvo:"
         other: "%{count} erros impediram que este %{resource} fosse salvo:"
+      messages:
+        header: "Encontramos %{count} erro(s):"
   sidebar:
     title: 'Ping Watch'
   fields:
@@ -147,6 +163,12 @@ pt-BR:
     new_site_title_page: 'Novo Site'
     back_page_button: 'Voltar'
     clear_fields: 'Limpar'
+    create_site_heading: "Adicionar Novo Site"
+    update_site_heading: "Editar Site"
+    url: "URL do Site"
+    back_page_button: "Voltar"
+    create_site_button: "Criar Site"
+    update_site_button: "Atualizar Site"
   notice:
     create_site_sucess: 'Site adicionado com sucesso'
     update_site_sucess: 'Site atualizado com sucesso'
