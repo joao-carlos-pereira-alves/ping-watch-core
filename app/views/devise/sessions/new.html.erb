@@ -3,6 +3,12 @@
     <img class="card-img-top rounded-circle mx-auto mb-4 border border-light" src="<%= asset_path('logo.png') %>" alt="Logo do Site" width="150" height="150">
     <h1 class="h3 mb-4 text-center"><%= I18n.t('login.session.sign_in') %></h1>
 
+    <% if alert %>
+      <div class="alert alert-danger">
+        <%= alert %>
+      </div>
+    <% end %>
+
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-floating mb-3">
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", id: "floatingInput", placeholder: I18n.t('login.fields.email_placeholder') %>
@@ -23,6 +29,11 @@
 
       <%= invisible_recaptcha_tags(ui: :button, text: I18n.t('login.fields.sign_in_button'), class: "w-100 btn btn-lg btn-primary") %>
     <% end %>
+
+    <!-- Link para a página de registro (criação de conta) -->
+    <div class="text-center mt-3">
+      <%= link_to I18n.t('login.fields.sign_up'), new_user_registration_path, class: "w-100 btn btn-outline-success btn-lg" %>
+    </div>
 
     <p class="mt-4 mb-3 text-muted text-center">&copy; 2024</p>
   </div>

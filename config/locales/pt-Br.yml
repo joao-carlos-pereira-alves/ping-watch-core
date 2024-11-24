@@ -64,6 +64,15 @@ pt-BR:
             url:
               taken: 'já está em uso'
               blank: 'é obrigatório'
+        user:
+          attributes:
+              password:
+                taken: 'já está em uso'
+                blank: 'é obrigatório'
+                too_short: 'Deve conter pelo menos 6 caracteres'
+              email:
+                taken: 'já está em uso'
+                blank: 'é obrigatório'
     attributes:
       site:
         status:
@@ -141,6 +150,19 @@ pt-BR:
       send_instructions: "Você receberá um e-mail com instruções sobre como desbloquear sua conta em alguns minutos."
       send_paranoid_instructions: "Se sua conta existir, você receberá um e-mail com instruções sobre como desbloqueá-la em alguns minutos."
       unlocked: "Sua conta foi desbloqueada com sucesso. Faça login para continuar."
+    signup:
+      session:
+        create_account: "Criar Conta"
+      fields:
+        name: "Nome"
+        email: "Email"
+        email_placeholder: "Digite seu email"
+        password: "Senha"
+        password_placeholder: "Escolha uma senha"
+        password_confirmation: "Confirmar Senha"
+        password_confirmation_placeholder: "Confirme sua senha"
+        terms_of_service: "Aceito os Termos de Serviço"
+        create_account_button: "Criar Conta"
   errors:
     messages:
       already_confirmed: "já estava confirmado, tente fazer login"
@@ -186,7 +208,6 @@ pt-BR:
       forgot_password?: 'Esqueceu a senha?'
       new_site_button: 'Adicionar Site'
       url: 'Url'
-      create_site_button: Criar Site
   mailers:
     site_mailer_subject: 'O site %{hostname} mudou de status'
     xlsx_extract_subject: 'Seu extrato XLSX foi gerado'
