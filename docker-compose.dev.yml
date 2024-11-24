@@ -27,11 +27,11 @@ x-backend:
   tty: true
 
 services:
-  # backend:
-  #   container_name: ping-watch-backend
-  #   ports:
-  #   - '3001:3001'
-  #   <<: *backend
+  backend:
+    container_name: ping-watch-backend
+    ports:
+    - '3001:3001'
+    <<: *backend
 
   db:
     image: postgres:10.17
@@ -54,14 +54,14 @@ services:
     networks:
       - backend_development
 
-  # sidekiq:
-  #   <<: *backend
-  #   command: ruby wait-for-redis.rb
-  #   networks:
-  #     - backend_development
-  #   depends_on:
-  #     - redis
-  #     - backend
+  sidekiq:
+    <<: *backend
+    command: ruby wait-for-redis.rb
+    networks:
+      - backend_development
+    depends_on:
+      - redis
+      - backend
 
   redis:
     container_name: redis

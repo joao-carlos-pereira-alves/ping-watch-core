@@ -1,6 +1,11 @@
 # spec/factories.rb
 
 FactoryBot.define do
+  factory :user_site do
+    user { nil }
+    site { nil }
+  end
+
   factory :plan do
     name { :free }
   end

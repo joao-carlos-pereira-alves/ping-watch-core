@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  belongs_to :plan, optional: :true
-  has_many :sites, dependent: :destroy
+  has_many :user_sites, dependent: :destroy
+  has_many :sites, through: :user_sites
   has_many :notifications, dependent: :destroy
+  belongs_to :plan, optional: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -181,11 +182,11 @@ class User < ApplicationRecord
   end
 
   def create_plan
-    plan = Plan.find_by(name: "free")
+    plan = Plan.find_by(name: 'free')
 
     if plan
       self.plan = plan
-      self.save!
+      save!
     else
       puts "\n Plano 'free' não encontrado."
       throw(:abort) # Interrompe a criação do usuário

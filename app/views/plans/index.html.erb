@@ -1,6 +1,6 @@
-<% free_plan = current_user.plan.free? %>
-<% basic_plan = current_user.plan.basic? %>
-<% gold_plan = current_user.plan.gold? %>
+<% free_plan = current_user&.plan&.free? %>
+<% basic_plan = current_user&.plan&.basic? %>
+<% gold_plan = current_user&.plan&.gold? %>
 
 <div class="d-flex flex-column content" id="contentContainer">
   <div class="container-fluid">

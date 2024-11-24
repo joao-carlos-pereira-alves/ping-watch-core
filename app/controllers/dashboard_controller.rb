@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     @site_checks_by_hour_of_day = current_user.site_checks_by_hour_of_day
     @site_status_summary = current_user.site_status_summary
     @average_response_time_per_site = current_user.average_response_time_per_site
-    @sites = Site.where(user: current_user)
+    @sites = current_user.sites
     @inactivated_sites = @sites.where.not(status: :online).count
     @average_response_time_for_all_sites = current_user.average_response_time_for_all_sites
     @uptime_geral = Site.uptime_geral(@sites)&.round(2)

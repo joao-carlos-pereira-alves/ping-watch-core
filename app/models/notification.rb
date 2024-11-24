@@ -43,7 +43,7 @@ class Notification < ApplicationRecord
     return unless can_notify?(last_check.response_time_ms, last_check.check_status)
 
     sender = NotificationService::NotificationSender.new(map_notification_method_strategy)
-    sender.execute(self, site)
+    sender.execute(self, site, user)
   end
 
   def status_from_code

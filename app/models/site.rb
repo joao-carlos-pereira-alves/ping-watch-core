@@ -4,7 +4,8 @@ class Site < ApplicationRecord
   require 'net/http'
 
   has_many :site_checks, dependent: :destroy
-  belongs_to :user
+  has_many :user_sites, dependent: :destroy
+  has_many :users, through: :user_sites
 
   validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'Url inválida' },
                   uniqueness: { message: 'URL já cadastrada' }
@@ -18,9 +19,12 @@ class Site < ApplicationRecord
     forbidden: 5
   }
 
-  after_create :check_site_status
   before_create :update_uuid
+  after_create :create_user_site
+  after_create :check_site_status
   after_update :perform_notifications, if: :status_changed?
+
+  attr_accessor :current_user
 
   def average_response_time
     site_checks.average(:response_time_ms)&.to_f&.round(2)
@@ -158,13 +162,21 @@ class Site < ApplicationRecord
 
   private
 
+  def create_user_site
+    return unless current_user
+
+    UserSite.create(user: current_user, site: self)
+  end
+
   def update_uuid
     self.uuid = SecureRandom.uuid
   end
 
   def perform_notifications
-    user.notifications.each do |notification|
-      notification.perform(self)
+    users.each do |user|
+      user.notifications.each do |notification|
+        notification.perform(self)
+      end
     end
   end
 
