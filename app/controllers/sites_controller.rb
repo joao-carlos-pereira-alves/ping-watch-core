@@ -3,7 +3,7 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-    @sites = Site.where(user: current_user)
+    @sites = current_user.sites
     @inactivated_sites = @sites.where.not(status: :online).count
     @average_response_time_for_all_sites = current_user.average_response_time_for_all_sites
     @uptime_geral = Site.uptime_geral(@sites)&.round(2)
@@ -19,6 +19,7 @@ class SitesController < ApplicationController
   # POST /sites
   def create
     @site = Site.new(site_params)
+    @site.current_user = current_user
 
     if @site.save
       redirect_to sites_path, notice: I18n.t('notice.create_site_sucess')
@@ -60,7 +61,6 @@ class SitesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def site_params
-    params[:site][:user_id] = current_user.id if params && params[:site].present?
     params.require(:site).permit(:url, :user_id)
   end
 end

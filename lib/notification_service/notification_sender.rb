@@ -7,8 +7,8 @@ module NotificationService
       @strategy = strategy
     end
 
-    def execute(notification, recipient)
-      @strategy.send(notification, recipient)
+    def execute(notification, recipient, _user = nil)
+      @strategy.send(notification, recipient, _user)
     end
   end
 end

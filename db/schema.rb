@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_03_213656) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_24_145505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -93,14 +93,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_03_213656) do
   end
 
   create_table "sites", force: :cascade do |t|
-    t.bigint "user_id"
     t.string "url"
     t.integer "status", default: 0
-    t.string "uuid", default: "8fbad704-9497-4011-b6a8-73e05a280c5a"
+    t.string "uuid", default: "7814d3ae-7419-4a1f-830e-2ae820fd5c44"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hostname"
-    t.index ["user_id"], name: "index_sites_on_user_id"
+  end
+
+  create_table "user_sites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "site_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_id"], name: "index_user_sites_on_site_id"
+    t.index ["user_id"], name: "index_user_sites_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -120,4 +127,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_03_213656) do
   add_foreign_key "notifications", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "site_checks", "sites"
+  add_foreign_key "user_sites", "sites"
+  add_foreign_key "user_sites", "users"
 end

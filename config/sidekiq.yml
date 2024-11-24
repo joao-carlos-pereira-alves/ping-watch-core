@@ -7,6 +7,6 @@
 :scheduler:
   :schedule:
     check_sites_batch_job:
-      cron: "*/5 * * * *"  # A cada 5 minuto
+      cron: "*/7 * * * *"  # Every 7 minutes
       class: "CheckSitesBatchJob"
       queue: check_site_status

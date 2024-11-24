@@ -3,16 +3,16 @@
 # lib/notification_service/email_notification.rb
 module NotificationService
   class EmailNotification < NotificationStrategy
-    def send(notification, site)
-      send_notification(site)
+    def send(notification, site, user)
+      send_notification(site, user)
       create_notification_receipt(notification)
       update_notification(notification)
     end
 
     private
 
-    def send_notification(site)
-      SiteMailer.status_change_email(site).deliver_later
+    def send_notification(site, user)
+      SiteMailer.status_change_email(site, user).deliver_later
     end
 
     def create_notification_receipt(notification)
