@@ -56,11 +56,11 @@ urls = [
 ]
 
 # Cria registros de sites no banco de dados
-urls.each do |url|
-  Site.find_or_create_by!(url: url, user: User.first) do |site|
-    # Adicione mais atributos se necessário
-    # site.hostname = URI.parse(url).host
-  end
-end
+# urls.each do |url|
+#   Site.find_or_create_by!(url: url, user: User.first) do |site|
+#     # Adicione mais atributos se necessário
+#     # site.hostname = URI.parse(url).host
+#   end
+# end
 
 puts "Created #{Site.count} sites."

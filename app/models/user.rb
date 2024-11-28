@@ -13,9 +13,11 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :password, presence: true, length: { minimum: 6 }
+  validates :name, presence: true, length: { minimum: 3, maximum: 50 }
 
   after_create :create_notification
   after_create :create_plan
+  after_create :send_welcome_email_mailer
 
   def average_response_time_for_all_sites
     site_checks
@@ -172,6 +174,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def send_welcome_email_mailer
+    UserMailer.welcome(self).deliver_later
+  end
 
   def site_checks
     SiteCheck
