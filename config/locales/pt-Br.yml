@@ -73,6 +73,9 @@ pt-BR:
               email:
                 taken: 'já está em uso'
                 blank: 'é obrigatório'
+              name:
+                blank: 'é obrigatório'
+                too_short: 'Deve conter pelo menos 3 caracteres'
     attributes:
       site:
         status:
@@ -211,6 +214,7 @@ pt-BR:
   mailers:
     site_mailer_subject: 'O site %{hostname} mudou de status'
     xlsx_extract_subject: 'Seu extrato XLSX foi gerado'
+    welcome_subject: 'Bem-vindo(a) à %{product_name}!'
   plan:
     page_title: 'Planos de Assinatura'
     page_subtitle: 'Escolha o plano que melhor se adapta às suas necessidades e expanda suas possibilidades. Oferecemos opções flexíveis para acompanhar o crescimento do seu negócio.'
