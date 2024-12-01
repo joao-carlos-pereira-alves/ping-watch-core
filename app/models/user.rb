@@ -19,11 +19,11 @@ class User < ApplicationRecord
   after_create :create_plan
   after_create :send_welcome_email_mailer
 
-  def average_response_time_for_all_sites(filtered_site_checks)
-    filtered_site_checks
-      .average(:response_time_ms)
-      .to_f
-      .round(2)
+  def average_response_time_for_all_sites(filtered_site_checks = nil)
+    checks = filtered_site_checks || site_checks
+    average = checks.average(:response_time_ms)
+
+    average ? average.to_f.round(2) : 0.0
   end
 
   def group_sites_per_status
