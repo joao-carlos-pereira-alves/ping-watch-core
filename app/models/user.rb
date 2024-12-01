@@ -19,8 +19,8 @@ class User < ApplicationRecord
   after_create :create_plan
   after_create :send_welcome_email_mailer
 
-  def average_response_time_for_all_sites
-    site_checks
+  def average_response_time_for_all_sites(filtered_site_checks)
+    filtered_site_checks
       .average(:response_time_ms)
       .to_f
       .round(2)
@@ -36,8 +36,8 @@ class User < ApplicationRecord
       .group_by_hour_of_day(:created_at, format: '%H:%M').count
   end
 
-  def group_response_time_trend
-    response_times = site_checks
+  def group_response_time_trend(filtered_site_checks)
+    response_times = filtered_site_checks
                      .group_by_week(:created_at)
                      .average(:response_time_ms)
 
@@ -107,11 +107,14 @@ class User < ApplicationRecord
     }
   end
 
-  def average_response_time_per_site
-    data = site_checks
-           .select('sites.hostname AS hostname, AVG(site_checks.response_time_ms) AS average_response_time')
-           .group('sites.hostname')
-           .map { |record| { hostname: record.hostname, average_response_time: record.average_response_time.to_f } }
+  def average_response_time_per_site(filtered_site_checks)
+    data = filtered_site_checks
+            .joins(:site) # Certifique-se de que existe uma associação `belongs_to :site` em `SiteCheck`
+            .select('sites.hostname AS hostname, AVG(site_checks.response_time_ms) AS average_response_time')
+            .group('sites.hostname')
+            .map do |record|
+              { hostname: record.hostname, average_response_time: record.average_response_time.to_f }
+            end
 
     sorted_data = data.sort_by { |record| record[:average_response_time] }.reverse
 
@@ -128,10 +131,10 @@ class User < ApplicationRecord
     }
   end
 
-  def site_status_summary
+  def site_status_summary(filtered_sites)
     data = {}
 
-    sites.find_each do |site|
+    filtered_sites.find_each do |site|
       # Contando o número de ocorrências para cada status
       status = site.status_label
       data[status] ||= 0
@@ -153,8 +156,8 @@ class User < ApplicationRecord
     }
   end
 
-  def site_checks_by_hour_of_day
-    data = site_checks
+  def site_checks_by_hour_of_day(filtered_site_checks)
+    data = filtered_site_checks
            .group_by_hour_of_day(:created_at, format: '%H:%M')
            .count
 

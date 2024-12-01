@@ -1,57 +1,57 @@
-  <div class="row mb-4">
-    <div class="col">
-      <div class="card text-bg-primary shadow-sm">
-        <div class="card-header">
-          Sites Monitorados
-        </div>
-
-        <div class="card-body">
-          <p class="lh-1 mb-1 fs-3">
-            <%= @sites.count %>
-          </p>
-        </div>
+<div class="row mb-4">
+  <div class="col">
+    <div class="card text-bg-primary shadow-sm">
+      <div class="card-header">
+        Sites Monitorados
       </div>
-    </div>
 
-    <div class="col">
-      <div class="card text-bg-info shadow-sm text-white">
-        <div class="card-header">
-          Sites em Tempo de Inatividade
-        </div>
-
-        <div class="card-body">
-          <p class="lh-1 mb-1 fs-3">
-            <%= @inactivated_sites %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card text-bg-success shadow-sm">
-        <div class="card-header">
-          Tempo Médio de Resposta
-        </div>
-
-        <div class="card-body">
-          <p class="lh-1 mb-1 fs-3">
-            <%= @average_response_time_for_all_sites %> ms
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card text-bg-danger shadow-sm">
-        <div class="card-header">
-          Uptime Geral (%)
-        </div>
-
-        <div class="card-body">
-          <p class="lh-1 mb-1 fs-3">
-            <%= @uptime_geral %> %
-          </p>
-        </div>
+      <div class="card-body">
+        <p class="lh-1 mb-1 fs-3">
+          <%= @sites.count %>
+        </p>
       </div>
     </div>
   </div>
+
+  <div class="col">
+    <div class="card text-bg-info shadow-sm text-white">
+      <div class="card-header">
+        Sites em Tempo de Inatividade
+      </div>
+
+      <div class="card-body">
+        <p class="lh-1 mb-1 fs-3">
+          <%= @inactivated_sites %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card text-bg-success shadow-sm">
+      <div class="card-header">
+        Tempo Médio de Resposta
+      </div>
+
+      <div class="card-body">
+        <p class="lh-1 mb-1 fs-3">
+          <%= @average_response_time_for_all_sites %> ms
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card text-bg-danger shadow-sm">
+      <div class="card-header">
+        Uptime Geral (%)
+      </div>
+
+      <div class="card-body">
+        <p class="lh-1 mb-1 fs-3">
+          <%= @uptime_geral %> %
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
