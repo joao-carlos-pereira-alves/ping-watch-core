@@ -5,9 +5,8 @@ class SitesController < ApplicationController
   # GET /sites
   def index
     @sites = current_user.sites
-    sites_checks = current_user.site_checks
     @inactivated_sites = @sites.where.not(status: :online).count
-    @average_response_time_for_all_sites = current_user.average_response_time_for_all_sites(sites_checks)
+    # @average_response_time_for_all_sites = current_user.average_response_time_for_all_sites
     @uptime_geral = Site.uptime_geral(@sites)&.round(2)
   end
 
