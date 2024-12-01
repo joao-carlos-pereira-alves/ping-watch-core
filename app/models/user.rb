@@ -173,6 +173,14 @@ class User < ApplicationRecord
     }
   end
 
+  def sites_count
+    user_sites.count
+  end
+
+  def can_create_site?
+    plan.max_sites.nil? || sites_count < plan.max_sites
+  end
+
   private
 
   def send_welcome_email_mailer

@@ -1,5 +1,6 @@
 class SitesController < ApplicationController
   before_action :set_site, only: %i[show update destroy edit]
+  before_action :check_site_limit, only: :create
 
   # GET /sites
   def index
@@ -80,6 +81,12 @@ class SitesController < ApplicationController
   end
 
   private
+
+  def check_site_limit
+    unless current_user.can_create_site?
+      redirect_to sites_path, alert: 'Você atingiu o limite máximo de sites permitido pelo seu plano.'
+    end
+  end
 
   def normalize_url(url)
     return if url.blank?

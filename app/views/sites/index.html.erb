@@ -2,6 +2,18 @@
 
 <div class="d-flex flex-column content" id="contentContainer">
     <div class="container-fluid">
+        <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                <%= alert %>
+                <button type="button" class="close btn btn-sm" data-dismiss="alert" aria-label="Close" style="all: unset; cursor: pointer;">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M11.742 10.742a1 1 0 0 0 0-1.414L9.414 8l2.328-2.328a1 1 0 0 0-1.414-1.414L8 6.586 5.672 4.258a1 1 0 0 0-1.414 1.414L6.586 8 4.258 10.328a1 1 0 0 0 1.414 1.414L8 9.414l2.328 2.328a1 1 0 0 0 1.414 0z"/>
+                    </svg>
+                </span>
+                </button>
+            </div>
+        <% end %>
         <div class="row align-items-center mb-4">
             <div class="col col-md-8">
                 <h1 class="h3 mb-0 text-gray-800">
@@ -11,7 +23,7 @@
                     <%= I18n.t('dashboard.page_subtitle') %>
                 </span>
             </div>
-            <div class="col col-md-4">
+            <div class="col col-md-4 d-flex justify-content-end">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <%= link_to send_extract_xlsx_mailer_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-dark shadow-sm d-flex align-items-center' do %>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
@@ -92,9 +104,9 @@ document.addEventListener('turbo:load', function() {
 
     function updateContentClass() {
         if (window.matchMedia('(min-width: 768px)').matches) {
-            contentContainer.classList.add('content');
+            contentContainer?.classList.add('content');
         } else {
-            contentContainer.classList.remove('content');
+            contentContainer?.classList.remove('content');
         }
     }
 
@@ -103,13 +115,5 @@ document.addEventListener('turbo:load', function() {
 
     // Adiciona ou remove a classe quando a janela é redimensionada
     window.addEventListener('resize', updateContentClass);
-
-    setTimeout(() => {
-        const alertDiv = document.querySelector('.alert');
-        const noticeDiv = document.querySelector('.notice');
-
-        if (alertDiv) alertDiv.remove();
-        if (noticeDiv) noticeDiv.remove();
-    }, 3000);
 });
 </script>
