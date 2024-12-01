@@ -77,10 +77,23 @@
 
         <main class="<%= current_user.present? ? 'col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3' : '' %>">
           <% if notice %>
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
               <%= notice %>
+              <button type="button" class="close btn btn-sm" data-dismiss="alert" aria-label="Close" style="all: unset; cursor: pointer;">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M11.742 10.742a1 1 0 0 0 0-1.414L9.414 8l2.328-2.328a1 1 0 0 0-1.414-1.414L8 6.586 5.672 4.258a1 1 0 0 0-1.414 1.414L6.586 8 4.258 10.328a1 1 0 0 0 1.414 1.414L8 9.414l2.328 2.328a1 1 0 0 0 1.414 0z"/>
+                    </svg>
+                </span>
+              </button>
             </div>
           <% end %>
+
+          <%# <% if flash[:alert] %>
+            <%# <script>
+              <%# alert("<%= j flash[:alert] %>
+            <%# </script>
+          <%# <% end %>
 
           <%= yield %>
         </main>
@@ -91,12 +104,16 @@
 
 <script>
 document.addEventListener('turbo:load', function() {
-  setTimeout(() => {
-    const alertDiv = document.querySelector('.alert');
-    const noticeDiv = document.querySelector('.notice');
+  const alertElements = document.querySelectorAll('.alert');
 
-    if (alertDiv) alertDiv.remove();
-    if (noticeDiv) noticeDiv.remove();
-  }, 5000);
+  alertElements.forEach(alert => {
+    const closeButton = alert.querySelector('[data-dismiss="alert"]');
+
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        alert.remove(); // Remove o elemento da DOM
+      });
+    }
+  });
 });
 </script>

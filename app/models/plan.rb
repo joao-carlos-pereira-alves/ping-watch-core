@@ -73,7 +73,7 @@ class Plan < ApplicationRecord
     }
   end
 
-  def has_permission?(permission)
+  def permission?(permission)
     permissions[permission] == true
   end
 

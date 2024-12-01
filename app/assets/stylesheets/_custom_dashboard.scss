@@ -60,6 +60,10 @@ body {
   font-size: .75rem;
 }
 
+.alert .close:active {
+  top: 1px;
+}
+
 /*
  * Navbar
  */
