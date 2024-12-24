@@ -55,6 +55,27 @@ pt-BR:
       short: "%d/%m %H:%M"
       long: "%d de %B de %Y %H:%M"
   activerecord:
+    errors:
+      messages:
+        record_invalid: "Registro inválido"
+      models:
+        site:
+          attributes:
+            url:
+              taken: 'já está em uso'
+              blank: 'é obrigatório'
+        user:
+          attributes:
+              password:
+                taken: 'já está em uso'
+                blank: 'é obrigatório'
+                too_short: 'Deve conter pelo menos 6 caracteres'
+              email:
+                taken: 'já está em uso'
+                blank: 'é obrigatório'
+              name:
+                blank: 'é obrigatório'
+                too_short: 'Deve conter pelo menos 3 caracteres'
     attributes:
       site:
         status:
@@ -64,7 +85,11 @@ pt-BR:
           timeout: "Tempo Esgotado"
           maintenance: "Manutenção"
           forbidden: "Não permitido o acesso"
+  hints:
+    url_hint: "Digite apenas o domínio principal (ex.: https://site.com.br), sem caminhos adicionais."
   site:
+    create_site_success: 'Site adicionado com sucesso.'
+    site_already_exists: 'Site já cadastrado.'
     status:
       unknown: "Desconhecido"
       online: "Ligado"
@@ -72,6 +97,10 @@ pt-BR:
       timeout: "Tempo Esgotado"
       maintenance: "Manutenção"
       forbidden: "Não permitido o acesso"
+    new_site_title: "Adicionar Novo Site"
+    edit_site_title: "Editar Site"
+    new_site_subtitle: "Preencha as informações abaixo para começar a monitorar seu site."
+    edit_site_subtitle: "Atualize as informações do site que você está monitorando."
   devise:
     confirmations:
       confirmed: "Seu endereço de e-mail foi confirmado com sucesso."
@@ -124,6 +153,19 @@ pt-BR:
       send_instructions: "Você receberá um e-mail com instruções sobre como desbloquear sua conta em alguns minutos."
       send_paranoid_instructions: "Se sua conta existir, você receberá um e-mail com instruções sobre como desbloqueá-la em alguns minutos."
       unlocked: "Sua conta foi desbloqueada com sucesso. Faça login para continuar."
+    signup:
+      session:
+        create_account: "Criar Conta"
+      fields:
+        name: "Nome"
+        email: "Email"
+        email_placeholder: "Digite seu email"
+        password: "Senha"
+        password_placeholder: "Escolha uma senha"
+        password_confirmation: "Confirmar Senha"
+        password_confirmation_placeholder: "Confirme sua senha"
+        terms_of_service: "Aceito os Termos de Serviço"
+        create_account_button: "Criar Conta"
   errors:
     messages:
       already_confirmed: "já estava confirmado, tente fazer login"
@@ -134,17 +176,28 @@ pt-BR:
       not_saved:
         one: "1 erro impediu que este %{resource} fosse salvo:"
         other: "%{count} erros impediram que este %{resource} fosse salvo:"
+      messages:
+        header: "Encontramos %{count} erro(s):"
   sidebar:
     title: 'Ping Watch'
   fields:
     new_site_button: 'Adicionar Site'
     url: 'Url'
     create_site_button: Criar Site
+    update_site_button: Atualizar Site
     new_site_title_page: 'Novo Site'
     back_page_button: 'Voltar'
     clear_fields: 'Limpar'
+    create_site_heading: "Adicionar Novo Site"
+    update_site_heading: "Editar Site"
+    url: "URL do Site"
+    back_page_button: "Voltar"
+    create_site_button: "Criar Site"
+    update_site_button: "Atualizar Site"
   notice:
-    notice_create_site_sucess: 'Site adicionado com sucesso'
+    create_site_sucess: 'Site adicionado com sucesso'
+    update_site_sucess: 'Site atualizado com sucesso'
+    delete_site_sucess: 'Site excluído com sucesso'
   login:
     session:
       sign_in: 'Por favor, entre'
@@ -158,10 +211,13 @@ pt-BR:
       forgot_password?: 'Esqueceu a senha?'
       new_site_button: 'Adicionar Site'
       url: 'Url'
-      create_site_button: Criar Site
   mailers:
     site_mailer_subject: 'O site %{hostname} mudou de status'
     xlsx_extract_subject: 'Seu extrato XLSX foi gerado'
+    welcome_subject: 'Bem-vindo(a) à %{product_name}!'
+  plan:
+    page_title: 'Planos de Assinatura'
+    page_subtitle: 'Escolha o plano que melhor se adapta às suas necessidades e expanda suas possibilidades. Oferecemos opções flexíveis para acompanhar o crescimento do seu negócio.'
   dashboard:
     page_title: 'Monitoramento de Sites'
     page_subtitle: 'Aqui você pode acompanhar o status de todos os seus sites em tempo real. Mantenha-se informado sobre a performance e disponibilidade'
@@ -169,8 +225,21 @@ pt-BR:
     page_title: 'Análise de Gráficos'
     page_subtitle: 'Visualize e analise as métricas de desempenho dos sites monitorados. Use os gráficos para identificar padrões e tomar decisões informadas.'
     average_response_title: 'Sites por Tempo de Espera'
+    site_status_distribution: 'Distribuição de Status'
     sites_per_status_title: 'Sites por Status'
     sites_checks_by_hour_of_day: 'Status por Hora do Dia'
     sites_checks_response_time_trend: 'Tendência de Tempo de Resposta ( Semanal )'
   extract:
-    title_button: 'Exportar Relatório (XLSX)'
+    title_button: 'Exportar Relatório'
+  notification:
+    page_title: 'Notificações'
+    page_subtitle: 'Gerencie e configure notificações de monitoramento de sites. Defina métodos de envio e acompanhe alertas importantes em tempo real para manter a performance sob controle.'
+    success_update: 'Notificação atualizada com sucesso'
+    error: 'Não foi possível realizar a operação, por favor, aguarde uns instantes e tente novamente mais tarde'
+    threshold_value: 'Limite'
+    alert_type: 'Tipo de Alerta'
+    frequency: 'Frequência'
+    notification_method: 'Método de Notificação'
+  buttons:
+    create: 'Criar'
+    update: 'Atualizar'

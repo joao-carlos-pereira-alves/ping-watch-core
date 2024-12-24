@@ -1,0 +1,119 @@
+<!-- Content Wrapper -->
+
+<div class="d-flex flex-column content" id="contentContainer">
+    <div class="container-fluid">
+        <% if alert %>
+            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                <%= alert %>
+                <button type="button" class="close btn btn-sm" data-dismiss="alert" aria-label="Close" style="all: unset; cursor: pointer;">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M11.742 10.742a1 1 0 0 0 0-1.414L9.414 8l2.328-2.328a1 1 0 0 0-1.414-1.414L8 6.586 5.672 4.258a1 1 0 0 0-1.414 1.414L6.586 8 4.258 10.328a1 1 0 0 0 1.414 1.414L8 9.414l2.328 2.328a1 1 0 0 0 1.414 0z"/>
+                    </svg>
+                </span>
+                </button>
+            </div>
+        <% end %>
+        <div class="row align-items-center mb-4">
+            <div class="col col-md-8">
+                <h1 class="h3 mb-0 text-gray-800">
+                    <%= I18n.t('dashboard.page_title') %>
+                </h1>
+                <span class="mb-0 font-weight-light">
+                    <%= I18n.t('dashboard.page_subtitle') %>
+                </span>
+            </div>
+            <div class="col col-md-4 d-flex justify-content-end">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <%= link_to send_extract_xlsx_mailer_path, data: { turbo_method: :get }, class: 'btn btn-sm btn-dark shadow-sm d-flex align-items-center' do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
+                            <path d="M5.884 6.68a.5.5 0 0 0-.768-.64L3.5 8.545 2.884 7.6a.5.5 0 1 0-.768.64l1 1.2a.5.5 0 0 0 .768 0l1.75-2.1zm4.78 3.62a.5.5 0 0 0 .768.64l1.75-2.1a.5.5 0 0 0 0-.64l-1.75-2.1a.5.5 0 0 0-.768.64L11.5 7.6 12.116 8.545l-1.452 1.756z"/>
+                            <path d="M14 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h7.293a1 1 0 0 1 .707.293l2.707 2.707A1 1 0 0 1 14 4.5zM11 3a1 1 0 0 1-1-1H3v12h10V4H11z"/>
+                        </svg>
+                        <span class="small ms-2" style="font-size: 0.9rem;"><%= I18n.t('extract.title_button') %></span>
+                    <% end %>
+                    <%= link_to new_site_path, data: { turbo_method: :get }, style: "border-left: 2px solid white !important;", class: 'btn btn-sm btn-dark shadow-sm d-flex align-items-center' do %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path d="M8 1a.5.5 0 0 1 .5.5v6.9h6.9a.5.5 0 1 1 0 1H8.5v6.9a.5.5 0 1 1-1 0V9.5H.5a.5.5 0 0 1 0-1h6.9V.5A.5.5 0 0 1 8 1z"/>
+                        </svg>
+                        <span class="small ms-2" style="font-size: 0.9rem;"><%= I18n.t('login.fields.new_site_button') %></span>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+            <!-- Area Chart -->
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            Sites Cadastrados
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome do Site</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Adicionado Em</th>
+                                    <th scope="col">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @sites.first(15).each_with_index do |site, i| %>
+                                    <tr>
+                                        <th scope="row"><%= i + 1 %></th>
+                                        <td><%= site.hostname %></td>
+                                        <td><%= site.status_label %></td>
+                                        <td><%= site.created_at&.strftime("%d/%m/%Y às %H:%M") %></td>
+                                        <td class="row">
+                                            <div class="col-1">
+                                                <%= active_link_to site_path(site.uuid), class: 'nav-link', id: "view-#{i}" do %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye" aria-hidden="true">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path>
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>
+                                                <% end %>
+                                            </div>
+                                            <div class="col-1">
+                                                <%= button_to site_path(site.uuid), class: 'nav-link', method: :delete do %>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x" aria-hidden="true">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                <% end %>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('turbo:load', function() {
+    const contentContainer = document.getElementById('contentContainer');
+
+    function updateContentClass() {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            contentContainer?.classList.add('content');
+        } else {
+            contentContainer?.classList.remove('content');
+        }
+    }
+
+    // Verifica quando a página é carregada
+    updateContentClass();
+
+    // Adiciona ou remove a classe quando a janela é redimensionada
+    window.addEventListener('resize', updateContentClass);
+});
+</script>

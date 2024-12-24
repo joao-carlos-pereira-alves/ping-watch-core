@@ -1,0 +1,79 @@
+
+<div class="mb-4 row">
+  <div class="col-12 col-sm-6">
+    <h1 class="h3 mb-0 text-gray-800"><%= @notification.notification_method_label[:title] %></h1>
+    <span class="mb-0 text-gray-800"><%= @notification.notification_method_label[:subtitle] %></span>
+  </div>
+  <div class="col-12 col-sm-12 col-md-6 row justify-content-end align-items-center">
+    <div class="col-12 col-sm-3 row justify-content-end align-items-center">
+      <a href="<%= edit_notification_path(@notification.uuid) %>" class='btn btn-sm text-white shadow-sm w-100 btn btn-sm btn-dark shadow-sm wd-100' style="margin-right: 6px;">Editar</a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Detalhes da Notificação</h5>
+      </div>
+      <div class="card-body p-4">
+        <!-- Tipo de Alerta -->
+        <div class="mb-3">
+          <h6><strong>Tipo de Alerta:</strong></h6>
+          <p>
+            <%= @notification.alert_type_label %>
+          </p>
+        </div>
+
+        <!-- Valor Limite (Threshold) -->
+        <div class="mb-3">
+          <h6><strong>Valor Limite (Threshold):</strong></h6>
+          <p><%= @notification.threshold_value_label %></p>
+        </div>
+
+        <!-- Frequência -->
+        <div class="mb-3">
+          <h6><strong>Frequência de Verificação:</strong></h6>
+          <p>
+            <%= @notification.frequency_label %>
+          </p>
+        </div>
+
+        <!-- Método de Notificação -->
+        <div class="mb-3">
+          <h6><strong>Método de Notificação:</strong></h6>
+          <p>
+            <%= @notification.notification_method_label[:title] %>
+          </p>
+        </div>
+
+        <!-- Status da Notificação (Ativo/Inativo) -->
+        <div class="mb-3">
+          <h6><strong>Status:</strong></h6>
+          <p>
+            <% if @notification.enabled %>
+              <span class="badge bg-success">Ativo</span>
+            <% else %>
+              <span class="badge bg-danger">Inativo</span>
+            <% end %>
+          </p>
+        </div>
+
+        <!-- Última Notificação Enviada -->
+        <div class="mb-3">
+          <h6><strong>Última Notificação Enviada:</strong></h6>
+          <p>
+            <% if @notification.last_notified_at %>
+              <%= @notification.last_notified_at.strftime("%d/%m/%Y %H:%M:%S") %>
+            <% else %>
+              Nunca notificado
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

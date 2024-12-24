@@ -18,7 +18,24 @@
     <div class="col-md-6">
       <%= label_tag :por_site, nil, class: 'form-label' %>
 
-      <%= text_field_tag :by_product_name, params[:by_product_name].presence, class: 'form-control', placeholder: 'Digite um domínio...' %>
+      <%= text_field_tag :by_site_domain, params[:by_site_domain].presence, class: 'form-control', placeholder: 'Digite um domínio...' %>
     </div>
   </div>
 <% end %>
+
+<script>
+  // Debounce
+  document.addEventListener("DOMContentLoaded", function() {
+    let timeout;
+    
+    const inputField = document.getElementById("by_site_domain_input");
+    
+    inputField.addEventListener("input", function() {
+      clearTimeout(timeout);
+      
+      timeout = setTimeout(function() {
+        document.querySelector('form').submit();
+      }, 500);
+    });
+  });
+</script>

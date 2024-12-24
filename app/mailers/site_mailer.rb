@@ -1,11 +1,11 @@
 class SiteMailer < ApplicationMailer
-  def status_change_email(site)
+  def status_change_email(site, user)
     @site = site
     @status = site.status_label
     @url = site.url
     @hostname = site.hostname
 
-    mail(to: site.user.email, subject: I18n.t('mailers.site_mailer_subject', hostname: @hostname))
+    mail(to: user.email, subject: I18n.t('mailers.site_mailer_subject', hostname: @hostname))
   end
 
   def extract_xlsx(user)

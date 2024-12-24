@@ -1,32 +1,66 @@
-# frozen_string_literal: true
+# db/seeds.rb
 
-require 'faker'
+Plan.create(name: :free)
+Plan.create(name: :basic)
+Plan.create(name: :gold)
 
-Export.destroy_all
-Order.destroy_all
+User.create(email: 'joaocarlopa@gmail.com', password: 123456)
 
-Order.record_timestamps = false
+# Lista de URLs para popular a tabela de sites
+urls = [
+  'https://www.google.com',
+  'https://www.facebook.com',
+  'https://www.twitter.com',
+  'https://www.linkedin.com',
+  'https://www.github.com',
+  'https://www.stackoverflow.com',
+  'https://www.reddit.com',
+  'https://www.amazon.com',
+  'https://www.apple.com',
+  'https://www.microsoft.com',
+  'https://www.yahoo.com',
+  'https://www.netflix.com',
+  'https://www.spotify.com',
+  'https://www.instagram.com',
+  'https://www.pinterest.com',
+  'https://www.quora.com',
+  'https://www.wordpress.com',
+  'https://www.medium.com',
+  'https://www.tumblr.com',
+  'https://www.gitlab.com',
+  'https://www.bitbucket.org',
+  'https://www.dropbox.com',
+  'https://www.box.com',
+  'https://www.slack.com',
+  'https://www.asana.com',
+  'https://www.trello.com',
+  'https://www.atlassian.com',
+  'https://www.heroku.com',
+  'https://www.digitalocean.com',
+  'https://www.vercel.com',
+  'https://www.netlify.com',
+  'https://www.cloudflare.com',
+  'https://www.heroku.com',
+  'https://www.mongolab.com',
+  'https://www.firebase.google.com',
+  'https://www.twilio.com',
+  'https://www.paypal.com',
+  'https://www.stripe.com',
+  'https://www.squarespace.com',
+  'https://www.wix.com',
+  'https://www.shopify.com',
+  'https://www.bigcommerce.com',
+  'https://www.wix.com',
+  'https://www.woocommerce.com',
+  'https://www.weebly.com'
+]
 
-# Limit the number of different products to 10.
-products = Array.new(10) { Faker::Commerce.product_name }
+# Cria registros de sites no banco de dados
+# urls.each do |url|
+#   Site.find_or_create_by!(url: url, user: User.first) do |site|
+#     # Adicione mais atributos se necessário
+#     # site.hostname = URI.parse(url).host
+#   end
+# end
 
-100.times do
-  date = rand(1.year.ago..Time.current)
-
-  order = Order.create(
-    created_at: date,
-    updated_at: date,
-    status: rand(0..2)
-  )
-
-  rand(1..10).times do
-    OrderItem.create(
-      order:,
-      name: products.sample,
-      quantity: rand(1..50),
-      unit_price: Faker::Commerce.price
-    )
-  end
-end
-
-Order.record_timestamps = true
+puts "Created #{Site.count} sites."

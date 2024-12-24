@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hotwire Dashboard</title>
+    <title>PingWatch Dashboard</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -41,18 +41,33 @@
                     Dashboard
                   <% end %>
                 </li>
-
                 <li class="nav-item">
-                  <%= active_link_to orders_path, class: 'nav-link' do %>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file align-text-bottom" aria-hidden="true"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                    Orders
+                  <%= active_link_to sites_path, class: 'nav-link' do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe align-text-bottom" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    Sites
                   <% end %>
                 </li>
-
                 <li class="nav-item">
-                  <%= active_link_to exports_path, class: 'nav-link' do %>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file align-text-bottom" aria-hidden="true"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                    Exports
+                  <%= active_link_to notifications_path, class: 'nav-link' do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    Notificações
+                  <% end %>
+                </li>
+                <li class="nav-item">
+                  <%= active_link_to plans_path, class: 'nav-link' do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart">
+                      <line x1="12" y1="20" x2="12" y2="10"></line>
+                      <line x1="18" y1="20" x2="18" y2="4"></line>
+                      <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                    Planos <div class="badge badge-success" style="color: green; border: 1px solid green; border-radius: 10px; margin-left: 2px;">Beta</div>
                   <% end %>
                 </li>
               </ul>
@@ -61,9 +76,44 @@
         <% end %>
 
         <main class="<%= current_user.present? ? 'col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3' : '' %>">
+          <% if notice %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= notice %>
+              <button type="button" class="close btn btn-sm" data-dismiss="alert" aria-label="Close" style="all: unset; cursor: pointer;">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M11.742 10.742a1 1 0 0 0 0-1.414L9.414 8l2.328-2.328a1 1 0 0 0-1.414-1.414L8 6.586 5.672 4.258a1 1 0 0 0-1.414 1.414L6.586 8 4.258 10.328a1 1 0 0 0 1.414 1.414L8 9.414l2.328 2.328a1 1 0 0 0 1.414 0z"/>
+                    </svg>
+                </span>
+              </button>
+            </div>
+          <% end %>
+
+          <%# <% if flash[:alert] %>
+            <%# <script>
+              <%# alert("<%= j flash[:alert] %>
+            <%# </script>
+          <%# <% end %>
+
           <%= yield %>
         </main>
       </div>
     </div>
   </body>
 </html>
+
+<script>
+document.addEventListener('turbo:load', function() {
+  const alertElements = document.querySelectorAll('.alert');
+
+  alertElements.forEach(alert => {
+    const closeButton = alert.querySelector('[data-dismiss="alert"]');
+
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        alert.remove(); // Remove o elemento da DOM
+      });
+    }
+  });
+});
+</script>

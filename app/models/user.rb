@@ -1,18 +1,29 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :sites, dependent: :destroy
+  has_many :user_sites, dependent: :destroy
+  has_many :sites, through: :user_sites
+  has_many :notifications, dependent: :destroy
+  belongs_to :plan, optional: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  def average_response_time_for_all_sites
-    site_checks
-      .average(:response_time_ms)
-      .to_f
-      .round(2)
+  validates :email, presence: true
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :name, presence: true, length: { minimum: 3, maximum: 50 }
+
+  after_create :create_notification
+  after_create :create_plan
+  after_create :send_welcome_email_mailer
+
+  def average_response_time_for_all_sites(filtered_site_checks = nil)
+    checks = filtered_site_checks || site_checks
+    average = checks.average(:response_time_ms)
+
+    average ? average.to_f.round(2) : 0.0
   end
 
   def group_sites_per_status
@@ -25,8 +36,8 @@ class User < ApplicationRecord
       .group_by_hour_of_day(:created_at, format: '%H:%M').count
   end
 
-  def group_response_time_trend
-    response_times = site_checks
+  def group_response_time_trend(filtered_site_checks)
+    response_times = filtered_site_checks
                      .group_by_week(:created_at)
                      .average(:response_time_ms)
 
@@ -96,11 +107,14 @@ class User < ApplicationRecord
     }
   end
 
-  def average_response_time_per_site
-    data = site_checks
-           .select('sites.hostname AS hostname, AVG(site_checks.response_time_ms) AS average_response_time')
-           .group('sites.hostname')
-           .map { |record| { hostname: record.hostname, average_response_time: record.average_response_time.to_f } }
+  def average_response_time_per_site(filtered_site_checks)
+    data = filtered_site_checks
+            .joins(:site) # Certifique-se de que existe uma associação `belongs_to :site` em `SiteCheck`
+            .select('sites.hostname AS hostname, AVG(site_checks.response_time_ms) AS average_response_time')
+            .group('sites.hostname')
+            .map do |record|
+              { hostname: record.hostname, average_response_time: record.average_response_time.to_f }
+            end
 
     sorted_data = data.sort_by { |record| record[:average_response_time] }.reverse
 
@@ -117,10 +131,10 @@ class User < ApplicationRecord
     }
   end
 
-  def site_status_summary
+  def site_status_summary(filtered_sites)
     data = {}
 
-    sites.find_each do |site|
+    filtered_sites.find_each do |site|
       # Contando o número de ocorrências para cada status
       status = site.status_label
       data[status] ||= 0
@@ -142,8 +156,8 @@ class User < ApplicationRecord
     }
   end
 
-  def site_checks_by_hour_of_day
-    data = site_checks
+  def site_checks_by_hour_of_day(filtered_site_checks)
+    data = filtered_site_checks
            .group_by_hour_of_day(:created_at, format: '%H:%M')
            .count
 
@@ -162,11 +176,42 @@ class User < ApplicationRecord
     }
   end
 
+  def sites_count
+    user_sites.count
+  end
+
+  def can_create_site?
+    plan.max_sites.nil? || sites_count < plan.max_sites
+  end
+
   private
+
+  def send_welcome_email_mailer
+    UserMailer.welcome(self).deliver_later
+  end
 
   def site_checks
     SiteCheck
       .joins(:site)
       .where(sites: { id: sites.select(:id) }) # Filtra site_checks pelo id dos sites associados ao usuário
+  end
+
+  def create_notification
+    Notification.create(user: self, notification_method: :email, alert_type: :response_time, frequency: :hourly,
+                        threshold_value: Notification::DEFAULT_THRESHOLD_VALUE)
+  end
+
+  def create_plan
+    plan = Plan.find_by(name: 'free')
+
+    if plan
+      self.plan = plan
+      save!
+    else
+      puts "\n Plano 'free' não encontrado."
+      throw(:abort) # Interrompe a criação do usuário
+    end
+  rescue StandardError => e
+    puts "\n Não foi possível cadastrar o usuário em um plano: #{e.message}"
   end
 end

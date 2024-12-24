@@ -1,0 +1,98 @@
+<%= form_with(model: notification, url: notification.persisted? ? notification_path(notification.uuid) : notifications_path, method: notification.persisted? ? :patch : :post) do |form| %>
+  <% if notification.errors.any? %>
+    <div class="text-danger">
+      <h2><%= pluralize(notification.errors.count, "erro") %> proibiu que esta notificação fosse salva:</h2>
+
+      <ul>
+        <% notification.errors.each do |error| %>
+          <li><%= "#{I18n.t("notification.#{error.attribute}")} #{error.message}" %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <!-- Tipo de Alerta -->
+    <div class="mb-3">
+      <h6><strong>Tipo de Alerta:</strong></h6>
+      <%= form.select :alert_type, Notification.alert_types.keys.reject(&:blank?).map { |key| [Notification.map_alert_type_label(key), key] }, {}, class: 'form-control', id: 'alert_type_select', onchange: 'changeThresholdInputType()', include_blank: false, include_hidden: false %>
+    </div>
+
+    <!-- Valor Limite (Threshold) -->
+      <div class="mb-3">
+      <h6><strong>Valor Limite (Threshold):</strong></h6>
+      <%= form.number_field :threshold_value, class: 'form-control', step: 'any', required: true, id: 'threshold_input' %>
+    </div>
+
+    <!-- Frequência -->
+    <div class="mb-3">
+      <h6><strong>Frequência de Verificação:</strong></h6>
+      <%= form.select :frequency, Notification.frequencies.keys.map { |key| [Notification.map_frequency_label(key), key] }, {}, class: 'form-control', include_blank: false, include_hidden: false %>
+    </div>
+
+    <!-- Método de Notificação -->
+    <div class="mb-3">
+      <h6><strong>Método de Notificação:</strong></h6>
+      <p>
+        <%= notification.notification_method_label[:title] %>
+      </p>
+    </div>
+
+    <!-- Status da Notificação (Ativo/Inativo) -->
+    <div class="mb-3">
+      <h6><strong>Status:</strong></h6>
+      <%= form.check_box :enabled %>
+      <%= form.label :enabled, 'Ativo' %>
+    </div>
+
+    <!-- Última Notificação Enviada -->
+    <div class="mb-3">
+      <h6><strong>Última Notificação Enviada:</strong></h6>
+      <p>
+        <% if notification.last_notified_at %>
+          <%= notification.last_notified_at.strftime("%d/%m/%Y %H:%M:%S") %>
+        <% else %>
+          Nunca notificado
+        <% end %>
+      </p>
+    </div>
+
+    <%= form.submit I18n.t('buttons.update'), class: 'btn btn-outline-dark' %>
+  </div>
+<% end %>
+
+<script>
+  function changeThresholdInputType() {
+    const alertType = document.getElementById('alert_type_select').value;
+    const thresholdInput = document.getElementById('threshold_input');
+
+    switch (alertType) {
+      case 'response_time':
+        thresholdInput.type = 'number';
+        thresholdInput.step = 'any';  // Permitir decimais
+        thresholdInput.max = 5000
+        thresholdInput.min = 1
+        thresholdInput.placeholder = 'Tempo de resposta em ms';
+        thresholdInput.value = null
+        break;
+      case 'status_code':
+        thresholdInput.type = 'number';
+        thresholdInput.step = '1';  // Apenas inteiros
+        thresholdInput.placeholder = 'Código de status HTTP';
+        thresholdInput.value = null
+        break;
+      case 'uptime':
+        thresholdInput.type = 'number';
+        thresholdInput.step = 'any';
+        thresholdInput.placeholder = 'Percentual de uptime (%)';
+        thresholdInput.value = null
+        break;
+      default:
+        thresholdInput.type = 'text';  // Pode ser outro tipo dependendo da lógica
+        thresholdInput.placeholder = '';
+    }
+  }
+
+  // Chame a função ao carregar a página para ajustar o input conforme o valor inicial
+  document.addEventListener('DOMContentLoaded', changeThresholdInputType);
+</script>

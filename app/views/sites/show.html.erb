@@ -1,0 +1,120 @@
+<div class="">
+  <!-- Page Heading -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="h3 mb-0 text-black font-weight-bold">
+        <%= @site.hostname %>
+      </h1>
+      <p class="lead text-muted">Monitoramento de status e métricas</p>
+    </div>
+  </div>
+
+  <!-- Site Info Card -->
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Informações do Site</h5>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Hostname:</strong> <%= @site.hostname %></li>
+            <li class="list-group-item"><strong>Status:</strong> <span class="badge badge-success text-black"><%= @site.status_label %></span></li>
+            <li class="list-group-item"><strong>Última Checagem:</strong> <%= @site.updated_at %></li>
+          </ul>
+        </div>
+        <div class="card-footer text-right d-flex">
+          <%# Não habilitar, pois se um site for editado, impactará todos usuários que utilizam o mesmo %>
+          <%# <a href="<%= edit_site_path(@site.uuid)" class="btn btn-outline-primary" style="margin-right: 6px;">Editar</a> %>
+          <%= button_to 'Excluir', site_path(@site.uuid), method: :delete, data: { confirm: 'Tem certeza que deseja excluir esse site? Essa ação não tem volta.' }, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metrics and Graphs -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Métricas Recentes</h5>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Tempo Médio de Resposta:</strong> <%= @site.average_response_time %> <small>ms</small></li>
+            <li class="list-group-item"><strong>Tempo de Atividade:</strong> <%= @site.uptime_percentage %>%</li>
+            <li class="list-group-item"><strong>Número de Checagens:</strong> <%= @site.site_checks.size %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Uptime History Table -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Histórico de Uptime</h5>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped table-hover mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Tempo de Resposta (ms)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @site.site_checks.last(10).each do |check| %>
+                <tr>
+                  <td><%= check.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+                  <td>
+                    <span class="badge <%= check.check_status == 'up' ? 'badge-success' : 'badge-danger' %> text-black">
+                      <%= check.check_status.capitalize %>
+                    </span>
+                  </td>
+                  <td><%= check.response_time_ms %> ms</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+          <h5 class="mb-0">Análise de Gráficos</h5>
+        </div>
+        <div class="card-body row">
+          <div class="col">
+            <div class="card">
+              <div
+                class="card-body"
+                data-controller="chart"
+                data-chart-data-value='<%= @site.site_checks_by_hour_of_day.to_json %>'
+              >
+                <canvas data-chart-target="canvas"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div
+                class="card-body"
+                data-controller="chart"
+                data-chart-data-value='<%= @site.site_status_distribution.to_json %>'
+                data-chart-type-value='bar'
+              >
+                <canvas data-chart-target="canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

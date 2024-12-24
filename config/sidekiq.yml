@@ -1,0 +1,12 @@
+:concurrency: 5
+:queues:
+  - check_site_status
+  - mailers
+  - default
+
+:scheduler:
+  :schedule:
+    check_sites_batch_job:
+      cron: "*/7 * * * *"  # Every 7 minutes
+      class: "CheckSitesBatchJob"
+      queue: check_site_status

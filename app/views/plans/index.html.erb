@@ -1,0 +1,138 @@
+<% free_plan = current_user&.plan&.free? %>
+<% basic_plan = current_user&.plan&.basic? %>
+<% gold_plan = current_user&.plan&.gold? %>
+
+<div class="d-flex flex-column content" id="contentContainer">
+  <div class="container-fluid">
+    <div class="mb-4 row">
+      <div class="col-12 col-sm-6">
+        <h1 class="h3 mb-0 text-gray-800"><%= I18n.t('plan.page_title') %></h1>
+        <span class="mb-0 text-gray-800"><%= I18n.t('plan.page_subtitle') %></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Plano Free -->
+      <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-light text-dark d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Plano Gratuito</h5>
+            <% if free_plan %>
+              <div class="badge badge-success anchor" style="background: green; border: 1px solid green; margin-left: 2px;">
+                Contratado
+              </div>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">Ideal para iniciantes. Comece a monitorar seus sites sem custo.</p>
+            <ul>
+              <% Plan::BENEFITS[:free].each do |plan| %>
+                <li><%= plan %></li>
+              <% end %>
+            </ul>
+          </div>
+            <div class="card-footer bg-light text-center">
+              <a href="#" class="btn <%= free_plan ? 'disabled' : '' %> btn-outline-primary">
+                <% if !free_plan %>
+                  Escolher Plano
+                <% else %>
+                  Plano atual
+                <% end %>
+              </a>
+            </div>
+        </div>
+      </div>
+
+      <!-- Plano Basic -->
+      <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="construction-overlay">
+              <span>Em Construção</span>
+          </div>
+          <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Plano Básico</h5>
+            <% if basic_plan %>
+              <div class="badge badge-success anchor" style="background: green; border: 1px solid green; margin-left: 2px;">
+                Contratado
+              </div>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">Perfeito para pequenas empresas que querem mais controle.</p>
+            <ul>
+              <% Plan::BENEFITS[:basic].each do |plan| %>
+                <li><%= plan %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="card-footer bg-primary text-center">
+            <a href="#" class="btn <%= basic_plan ? 'disabled' : '' %> btn-outline-light">
+              <% if !basic_plan %>
+                Escolher Plano
+              <% else %>
+                Plano atual
+              <% end %>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plano Gold (Destaque) -->
+      <div class="col-lg-4 mb-4">
+        <div class="card shadow-lg h-100 border-warning">
+          <div class="construction-overlay">
+            <span>Em Construção</span>
+          </div>
+          <div class="card-header bg-warning text-white d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Plano Gold</h5>
+            <% if gold_plan %>
+              <div class="badge badge-success anchor" style="background: green; border: 1px solid green; margin-left: 2px;">
+                Contratado
+              </div>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <p class="text-muted">O melhor plano para grandes empresas. Máximo desempenho e suporte.</p>
+            <ul>
+              <% Plan::BENEFITS[:gold].each do |plan| %>
+                <li><%= plan %></li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="card-footer bg-warning text-center">
+            <a href="#" class="btn btn-outline-light <%= gold_plan ? 'disabled' : '' %>">
+              <% if !gold_plan %>
+                Escolher Plano
+              <% else %>
+                Plano atual
+              <% end %>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    .construction-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #d9534f; /* Cor do texto da faixa */
+        z-index: 10;
+        backdrop-filter: blur(3px); /* Aplica o efeito de blur */
+    }
+    .card {
+        position: relative;
+        overflow: hidden; /* Garante que o blur não transborde do card */
+    }
+</style>

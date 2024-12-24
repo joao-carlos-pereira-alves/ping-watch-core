@@ -1,0 +1,15 @@
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+  <div class="container-fluid">
+    <div class="mb-4">
+      <h1 class="h3 mb-0 text-gray-800">
+        <%= params[:id].present? ? I18n.t('site.edit_site_title') : I18n.t('site.new_site_title') %>
+      </h1>
+      <span class="mb-0 font-weight-light">
+        <%= params[:id].present? ? I18n.t('site.edit_site_subtitle') : I18n.t('site.new_site_subtitle') %>
+      </span>
+    </div>
+    <div class="">
+      <%= render "form", site: @site %>
+    </div>
+  </div>
+</div>
