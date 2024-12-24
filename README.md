@@ -3,6 +3,15 @@
 ## Visão Geral
 Ping Watch é uma aplicação desenvolvida para monitorar a disponibilidade de websites e notificar seus usuários sobre alterações de status, além de oferecer relatórios detalhados e gráficos com métricas relevantes.
 
+<p align="center">
+  <img src="ping_watch_1.jpeg" alt="Imagem 1" width="45%" />
+  <img src="ping_watch_2.jpeg" alt="Imagem 2" width="45%" />
+</p>
+<p align="center">
+  <img src="ping_watch_3.jpeg" alt="Imagem 3" width="45%" />
+  <img src="ping_watch_4.jpeg" alt="Imagem 4" width="45%" />
+</p>
+
 ## Tecnologias Utilizadas
 - **Ruby**: Linguagem principal da aplicação.
 - **Ruby on Rails**: Framework utilizado para o desenvolvimento da aplicação.
