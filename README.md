@@ -57,7 +57,7 @@ A aplicação está hospedada no Fly.io, garantindo alta disponibilidade e desem
 ### 2. Clonar o Repositório
 Depois de forkar o projeto, clone o repositório para sua máquina local:
 ```bash
-git clone https://github.com/seu-usuario/ping-watch.git
+git clone https://github.com/joao-carlos-pereira-alves/ping-watch.git
 ```
 
 ### 3. Configurar o Banco de Dados
